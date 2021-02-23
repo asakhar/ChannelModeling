@@ -40,11 +40,11 @@ int test()
     // ##################################
     //std::cout << "\nResolved:\n";
     //for (size_t i = 0; i < res.second; i++)
-      //std::cout << (bool)res.first[i];
+    //std::cout << (bool)res.first[i];
     //std::cout << "\nActual:\n";
 
     // ##################################
-
+    
     for (size_t i = 0; auto &item : vec)
     {
       //std::cout << (bool)item;

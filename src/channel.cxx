@@ -14,12 +14,16 @@ Decorator::Array_t Decorator::evaluate(Data_t const *data, size_t block_size)
   std::memcpy((void *)data_pool.get(), (void const *)data, sizeof(Data_t) * block_size);
   return run(std::forward<SmartArr_t>(data_pool), block_size);
 }
+
+#if __cplusplus > 201703L && __cpp_concepts >= 201907L
 Decorator::Array_t Decorator::evaluate(std::basic_string_view<Data_t> data)
 {
   auto data_pool = std::make_unique<Data_t[]>(data.size());
   std::memcpy((void *)data_pool.get(), (void const *)data.begin(), sizeof(Data_t) * data.size());
   return run(std::forward<SmartArr_t>(data_pool), data.size());
 }
+#endif
+
 Decorator::Array_t Decorator::evaluate(std::vector<Data_t> const &data)
 {
   auto data_pool = std::make_unique<Data_t[]>(data.size());

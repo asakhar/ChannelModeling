@@ -4,7 +4,9 @@
 #include <random>
 #include <iostream>
 #include <string>
+#if __cplusplus > 201703L && __cpp_concepts >= 201907L
 #include <concepts>
+#endif
 #include <functional>
 #include <memory>
 #include <sstream>
@@ -123,7 +125,7 @@ protected:
   RunReturn run(SmartArr_t data, size_t block_size) override;
 
 private:
-  size_t n= 0;
+  size_t n = 0;
 };
 
 class ParityCheckEncoder : public Decorator

@@ -54,11 +54,6 @@ public:
   using Input_t = std::vector<In_t>;
   using HandlerSignature = Return_t(Input_t &&, MetaInfo &&);
   ProcessorUnit(std::function<HandlerSignature> hand) : m_handler{hand} {}
-  // template </*std::invocable<Input_t &&, MetaInfo &&>*/typename Handler_T>
-  // ProcessorUnit(Handler_T hand)
-  //     : m_handler{
-  //           [hand](Input_t &&input, MetaInfo &&info) { hand(input, info); }}
-  //           {}
   TranslationData operator()(TranslationData &data) override {
     try {
       auto &val = data.get<In_t>();
@@ -83,7 +78,7 @@ template <typename Ty> concept Convertible_to_function = requires(Ty ty) {
 template <typename In_t, typename Out_t> class Model {
 public:
   Model<In_t, Out_t> &operator>>(Convertible_to_function auto invocable) {
-    *this >> std::function(invocable);
+    insert(std::function{invocable});
     return *this;
   }
   template <typename In, typename Out>
@@ -91,13 +86,70 @@ public:
       std::function<std::pair<std::vector<Out>, MetaInfo>(std::vector<In> &&,
                                                           MetaInfo &&)>
           model_step) {
+    insert(model_step);
+    return *this;
+  }
+template <typename In, typename Out>
+  void
+  insert(std::function<std::pair<std::vector<Out>, MetaInfo>(std::vector<In>&&)> model_step) {
+    if (m_units.empty() && typeid(In) != typeid(In_t))
+      throw std::logic_error("First unit and model input type mismatch ("s +
+                             typeid(In_t).name() + " != "s +
+                             typeid(void).name() + ")."s);
+    auto func = [model_step](std::vector<In> &&v, MetaInfo &&info) {
+      auto ret = model_step(std::move(v));
+      for (auto &item : ret.second)
+        info.put(item.second);
+      return std::pair{std::move(ret.first), std::move(info)};
+    };
+    auto new_unit = std::make_unique<ProcessorUnit<bool, Out>>(std::function(func));
+    m_units.emplace_back(std::move(new_unit));
+  }
+
+  template <typename Out>
+  void
+  insert(std::function<std::pair<std::vector<Out>, MetaInfo>()> model_step) {
+    if (m_units.empty() && typeid(void) != typeid(In_t))
+      throw std::logic_error("First unit and model input type mismatch ("s +
+                             typeid(In_t).name() + " != "s +
+                             typeid(void).name() + ")."s);
+    auto func = [model_step](std::vector<bool> &&v, MetaInfo &&info) {
+      auto ret = model_step();
+      for (auto &item : ret.second)
+        info.put(item.second);
+      return std::pair{std::move(ret.first), std::move(info)};
+    };
+    auto new_unit = std::make_unique<ProcessorUnit<bool, Out>>(std::function(func));
+    m_units.emplace_back(std::move(new_unit));
+  }
+  template <typename In, typename Out>
+  void
+  insert(std::function<std::pair<std::vector<Out>, MetaInfo>(std::vector<In> &&,
+                                                             MetaInfo &&)>
+             model_step) {
     if (m_units.empty() && typeid(In) != typeid(In_t))
       throw std::logic_error("First unit and model input type mismatch ("s +
                              typeid(In_t).name() + " != "s + typeid(In).name() +
                              ")."s);
     auto new_unit = std::make_unique<ProcessorUnit<In, Out>>(model_step);
     m_units.emplace_back(std::move(new_unit));
-    return *this;
+  }
+  std::vector<Out_t> operator()() {
+    if (typeid(In_t) != typeid(void))
+      throw std::logic_error(
+          "Can't invoke model without params as it takes some.");
+    if (m_units.empty())
+      return std::vector<Out_t>{};
+    TranslationData current{std::vector<bool>{}, MetaInfo{}};
+    for (auto &item : m_units) {
+      current = (*item)(current);
+    }
+    try {
+      return current.get<Out_t>();
+    } catch (std::bad_any_cast &e) {
+      throw std::logic_error(
+          "Last unit return type is invalid for this model.");
+    }
   }
   std::vector<Out_t> operator()(std::vector<In_t> &&input) {
     if (m_units.empty())
@@ -109,7 +161,8 @@ public:
     try {
       return current.get<Out_t>();
     } catch (std::bad_any_cast &e) {
-      throw std::logic_error("Last unit return type is invalid for this model.");
+      throw std::logic_error(
+          "Last unit return type is invalid for this model.");
     }
   }
 

@@ -20,6 +20,12 @@ public:
   template <typename _Ty> _Ty const &get() const {
     return std::any_cast<_Ty const &>(m_data.at(typeid(_Ty)));
   }
+  auto begin() {
+    return m_data.begin();
+  }
+  auto end() {
+    return m_data.end();
+  }
 
 private:
   std::unordered_map<std::type_index, std::any> m_data;

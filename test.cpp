@@ -1,8 +1,8 @@
 #include "include/channel.hxx"
 #include "metainfo.hxx"
+#include "unitproto.hxx"
 #include <functional>
 #include <vector>
-#include "unitproto.hxx"
 int test();
 
 int main(int argc, char const *argv[]) {
@@ -10,34 +10,34 @@ int main(int argc, char const *argv[]) {
   UnitProto<bool, bool> proto;
   model >> proto;
 
-
-
-  auto without_params = [i=1]() mutable {
+  auto without_params = [i = 1]() mutable {
     auto meta = MetaInfo{};
     meta.put(i++);
-    return std::pair{std::vector<bool>{false,true,false,true}, meta};
+    return std::pair{std::vector<bool>{false, true, false, true}, meta};
   };
   auto without_meta = [](std::vector<bool> &&data) {
-    data[0] = false;
+    // data[0] = false;
     auto meta = MetaInfo{};
     meta.put('i');
     return std::pair{std::move(data), meta};
   };
   auto passthrough = [](std::vector<bool> &&data, MetaInfo &&info) {
     info.put("some meta");
-    std::cout << info.get<UnitProto<bool, bool>::UnitInfo>().info << "\n" << info.get<char const *>() << std::endl;
+    std::cout << info.get<UnitProto<bool, bool>::UnitInfo>().info << "\n"
+              << info.get<char const *>() << std::endl;
     return std::pair{data, info};
   };
 
-  // Model<void, bool> model2;
+  Model<void, bool> model2;
+  BinaryGenerator bingen(0.6, 20);
+  model2 >> bingen;
   // model2 >> without_params >> passthrough >> without_params >> passthrough;
 
-
-  // auto ret2 = model2();
-  // for (auto item : ret2)
-  //   std::cout << item << " ";
-  // std::cout << std::endl;
-  // exit(0);
+  auto ret2 = model2();
+  for (auto item : ret2)
+    std::cout << item << " ";
+  std::cout << std::endl;
+  //exit(0);
 
   auto cast = [](std::vector<bool> &&data, MetaInfo &&info) {
     std::vector<double> tmp;
@@ -47,9 +47,10 @@ int main(int argc, char const *argv[]) {
     return std::pair{std::move(tmp), info};
   };
   auto increment = [](std::vector<double> &&data, MetaInfo &&info) {
-    for(auto&item:data)
+    for (auto &item : data)
       item += 1.;
-    std::cout << info.get<char const*>() << "\n" << info.get<char>() <<std::endl;
+    std::cout << info.get<char const *>() << "\n"
+              << info.get<char>() << std::endl;
     return std::pair{std::move(data), info};
   };
   auto cast_back = [](std::vector<double> &&data, MetaInfo &&info) {
@@ -58,7 +59,8 @@ int main(int argc, char const *argv[]) {
       tmp.emplace_back((bool)item);
     return std::pair{std::move(tmp), info};
   };
-  model >> passthrough  >> without_meta >>/* without_params >>*/ cast >> increment/* >> cast_back*/;
+  model >> passthrough >> without_meta >> /* without_params >>*/ cast >>
+      increment /* >> cast_back*/;
   // model >> passthrough >> increment;
   // model >> std::function(passthrough) >> std::function(cast) >> increment;
   auto ret = model({true, false, true});

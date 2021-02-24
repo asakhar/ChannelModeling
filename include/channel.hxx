@@ -50,6 +50,7 @@ public:
   virtual ~BasicUnit() = default;
   virtual char const* get_in_name() const = 0;
   virtual char const* get_out_name() const = 0;
+  struct EmptyObject {};
 };
 
 template <typename In_t, typename Out_t>
@@ -124,13 +125,13 @@ template <typename In, typename Out>
       throw std::logic_error("First unit and model input type mismatch ("s +
                              typeid(In_t).name() + " != "s +
                              typeid(void).name() + ")."s);
-    auto func = [model_step](std::vector<EmptyObject> &&v, MetaInfo &&info) {
+    auto func = [model_step](std::vector<BasicUnit::EmptyObject> &&v, MetaInfo &&info) {
       auto ret = model_step();
       for (auto &item : ret.second)
         info.put(item.second);
       return std::pair{std::move(ret.first), std::move(info)};
     };
-    auto new_unit = std::make_unique<ProcessorUnit<EmptyObject, Out>>(std::function(func));
+    auto new_unit = std::make_unique<ProcessorUnit<BasicUnit::EmptyObject, Out>>(std::function(func));
     m_units.emplace_back(std::move(new_unit));
   }
   template <typename In, typename Out>
@@ -138,7 +139,7 @@ template <typename In, typename Out>
   insert(std::function<std::pair<std::vector<Out>, MetaInfo>(std::vector<In> &&,
                                                              MetaInfo &&)>
              model_step) {
-    if (m_units.empty() && typeid(In) != typeid(In_t))
+    if (m_units.empty() && typeid(In) != typeid(In_t) && (typeid(In_t) != typeid(void) && typeid(In) != typeid(BasicUnit::EmptyObject)))
       throw std::logic_error("First unit and model input type mismatch ("s +
                              typeid(In_t).name() + " != "s + typeid(In).name() +
                              ")."s);
@@ -146,12 +147,12 @@ template <typename In, typename Out>
     m_units.emplace_back(std::move(new_unit));
   }
   std::vector<Out_t> operator()() {
-    if (typeid(In_t) != typeid(void))
+    if (typeid(In_t) != typeid(void) && typeid(In_t) != typeid(BasicUnit::EmptyObject))
       throw std::logic_error(
           "Can't invoke model without params as it takes some.");
     if (m_units.empty())
       return std::vector<Out_t>{};
-    TranslationData current{std::vector<EmptyObject>{}, MetaInfo{}};
+    TranslationData current{std::vector<BasicUnit::EmptyObject>{}, MetaInfo{}};
     for (auto &item : m_units) {
       current = (*item)(current);
     }
@@ -178,7 +179,6 @@ template <typename In, typename Out>
   }
 
 private:
-  struct EmptyObject {};
   std::list<std::unique_ptr<BasicUnit>> m_units;
 };
 

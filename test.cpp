@@ -58,7 +58,7 @@ int main(int argc, char const *argv[]) {
       tmp.emplace_back((bool)item);
     return std::pair{std::move(tmp), info};
   };
-  model >> passthrough  >> without_meta >>cast >> increment;
+  model >> passthrough  >> without_meta >>/* without_params >>*/ cast >> increment/* >> cast_back*/;
   // model >> passthrough >> increment;
   // model >> std::function(passthrough) >> std::function(cast) >> increment;
   auto ret = model({true, false, true});

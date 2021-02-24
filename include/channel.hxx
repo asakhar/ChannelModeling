@@ -20,6 +20,7 @@
 #include <string>
 #include <string_view>
 // template <typename In_t, typename Out_t> class Model;
+using namespace std::string_literals;
 
 class TranslationData {
 public:
@@ -34,6 +35,9 @@ public:
         m_data);
   }
   MetaInfo &get_info() { return m_info; }
+  char const* get_type_name() const{
+    return m_data.type().name();
+  }
 
 private:
   std::any m_data;
@@ -44,6 +48,8 @@ class BasicUnit {
 public:
   virtual TranslationData operator()(TranslationData &) = 0;
   virtual ~BasicUnit() = default;
+  virtual char const* get_in_name() const = 0;
+  virtual char const* get_out_name() const = 0;
 };
 
 template <typename In_t, typename Out_t>
@@ -61,15 +67,20 @@ public:
       auto ret = m_handler(std::move(val), std::move(inf));
       return {std::move(ret.first), std::move(ret.second)};
     } catch (std::bad_any_cast &e) {
-      throw std::logic_error("Serial units in&out type mismatch.");
+      throw std::logic_error("Serial units in&out type mismatch ("s + typeid(std::vector<In_t>).name() +" != "s + data.get_type_name() + ").");
     }
+  }
+  char const* get_in_name() const override {
+    return typeid(In_t).name();
+  }
+  char const* get_out_name() const override {
+    return typeid(Out_t).name();
   }
 
 private:
   std::function<HandlerSignature> m_handler;
 };
 
-using namespace std::string_literals;
 
 template <typename Ty> concept Convertible_to_function = requires(Ty ty) {
   std::function(ty);
@@ -113,13 +124,13 @@ template <typename In, typename Out>
       throw std::logic_error("First unit and model input type mismatch ("s +
                              typeid(In_t).name() + " != "s +
                              typeid(void).name() + ")."s);
-    auto func = [model_step](std::vector<bool> &&v, MetaInfo &&info) {
+    auto func = [model_step](std::vector<EmptyObject> &&v, MetaInfo &&info) {
       auto ret = model_step();
       for (auto &item : ret.second)
         info.put(item.second);
       return std::pair{std::move(ret.first), std::move(info)};
     };
-    auto new_unit = std::make_unique<ProcessorUnit<bool, Out>>(std::function(func));
+    auto new_unit = std::make_unique<ProcessorUnit<EmptyObject, Out>>(std::function(func));
     m_units.emplace_back(std::move(new_unit));
   }
   template <typename In, typename Out>
@@ -140,7 +151,7 @@ template <typename In, typename Out>
           "Can't invoke model without params as it takes some.");
     if (m_units.empty())
       return std::vector<Out_t>{};
-    TranslationData current{std::vector<bool>{}, MetaInfo{}};
+    TranslationData current{std::vector<EmptyObject>{}, MetaInfo{}};
     for (auto &item : m_units) {
       current = (*item)(current);
     }
@@ -148,7 +159,7 @@ template <typename In, typename Out>
       return current.get<Out_t>();
     } catch (std::bad_any_cast &e) {
       throw std::logic_error(
-          "Last unit return type is invalid for this model.");
+          "Last unit return type is invalid for this model ("s+m_units.back()->get_out_name()+" != "s+ typeid(Out_t).name()+")."s);
     }
   }
   std::vector<Out_t> operator()(std::vector<In_t> &&input) {
@@ -162,11 +173,12 @@ template <typename In, typename Out>
       return current.get<Out_t>();
     } catch (std::bad_any_cast &e) {
       throw std::logic_error(
-          "Last unit return type is invalid for this model.");
+          "Last unit return type is invalid for this model ("s+m_units.back()->get_out_name()+" != "s+ typeid(Out_t).name()+")."s);
     }
   }
 
 private:
+  struct EmptyObject {};
   std::list<std::unique_ptr<BasicUnit>> m_units;
 };
 

@@ -14,7 +14,7 @@ public:
   operator()(std::vector<In_t> &&data, MetaInfo &&info) {
     info.put(UnitInfo{"Unit prototype has been used."});
 
-    auto dummy = std::vector<Out_t>{};
+    auto dummy = std::vector<Out_t>{1, 0, 1, 0};
     return {dummy, std::move(info)};
   }
   // virtual std::pair<std::vector<Out_t>, MetaInfo>

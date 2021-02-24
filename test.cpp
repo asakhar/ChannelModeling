@@ -29,7 +29,9 @@ int main(int argc, char const *argv[]) {
   };
 
   Model<void, bool> model2;
-  BinaryGenerator bingen(0.6, 20);
+  double const prob = 0.6;
+  size_t const number = 20;
+  BinaryGenerator bingen(prob, number);
   model2 >> bingen;
   // model2 >> without_params >> passthrough >> without_params >> passthrough;
 

@@ -4,8 +4,10 @@ project(ChannelModeling VERSION 0.1)
 
 add_compile_options(-O3)
 
-add_executable(test test.cpp src/channel.cxx)
-target_compile_features(test PUBLIC cxx_std_20)
+include_directories(include)
+
+add_executable(test1 test.cpp src/channel.cxx)
+target_compile_features(test1 PUBLIC cxx_std_20)
 
 add_library(BasicModels src/channel.cxx)
 target_compile_definitions(BasicModels PUBLIC NDEBUG)

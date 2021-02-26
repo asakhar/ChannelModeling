@@ -6,6 +6,7 @@ add_library(default INTERFACE)
 target_compile_options(default INTERFACE -O3)
 target_compile_features(default INTERFACE cxx_std_20)
 target_include_directories(default INTERFACE include)
+target_precompile_headers(default INTERFACE pch.h)
 
 
 add_executable(test1 test.cpp src/channel.cxx)

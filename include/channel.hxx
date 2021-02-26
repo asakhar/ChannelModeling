@@ -128,7 +128,7 @@ public:
       throw std::logic_error("First unit and model input type mismatch ("s +
                              typeid(In_t).name() + " != "s +
                              typeid(void).name() + ")."s);
-    auto func = [model_step](std::vector<BasicUnit::EmptyObject> &&v,
+    auto func = [model_step](std::vector<BasicUnit::EmptyObject> &&/*v*/,
                              MetaInfo &&info) {
       auto ret = model_step();
       for (auto &item : ret.second)

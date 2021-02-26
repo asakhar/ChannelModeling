@@ -26,7 +26,7 @@ public:
       bit = bit ^ (bitflip < Pis[state]);
 
       auto translation = dist();
-      auto i = 0;
+      auto i = 0UL;
       for (; i < nstates - 1; i++)
         if (translation <= P[state][i])
           break;

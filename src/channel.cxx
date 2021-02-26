@@ -1,4 +1,5 @@
-#include "../include/channel.hxx"
+#include "channel.hxx"
+
 
 // Decorator::~Decorator() {
 //   if (m_next_on_heap) {

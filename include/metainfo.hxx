@@ -20,14 +20,14 @@ public:
   template <typename Ty> Ty const &get() const {
     return std::any_cast<Ty const &>(m_data.at(typeid(Ty)));
   }
-  auto begin() {
+  inline auto begin() {
     return m_data.begin();
   }
-  auto end() {
+  inline auto end() {
     return m_data.end();
   }
   template<typename Ty>
-  auto find() {
+  inline auto find() {
     return m_data.find(typeid(Ty));
   }
 

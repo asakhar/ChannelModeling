@@ -7,16 +7,16 @@
 #include <vector>
 int test();
 
-int main(int argc, char const *argv[]) {
+int main(int /*argc*/, char const */*argv*/[]) {
   Model<bool, double> model;
   UnitProto<bool, bool> proto;
   model >> proto;
 
-  auto without_params = [i = 1]() mutable {
-    auto meta = MetaInfo{};
-    meta.put(i++);
-    return std::pair{std::vector<bool>{false, true, false, true}, meta};
-  };
+  // auto without_params = [i = 1]() mutable {
+  //   auto meta = MetaInfo{};
+  //   meta.put(i++);
+  //   return std::pair{std::vector<bool>{false, true, false, true}, meta};
+  // };
   auto without_meta = [i = 1](std::vector<bool> &&data) mutable {
     // data[0] = false;
     auto meta = MetaInfo{};
@@ -59,12 +59,12 @@ int main(int argc, char const *argv[]) {
               << (info.find<char>() != std::end(info) ? info.get<char>() : ' ') << std::endl;
     return std::pair{std::move(data), info};
   };
-  auto cast_back = [](std::vector<double> &&data, MetaInfo &&info) {
-    std::vector<bool> tmp;
-    for (auto item : data)
-      tmp.emplace_back((bool)item);
-    return std::pair{std::move(tmp), info};
-  };
+  // auto cast_back = [](std::vector<double> &&data, MetaInfo &&info) {
+  //   std::vector<bool> tmp;
+  //   for (auto item : data)
+  //     tmp.emplace_back((bool)item);
+  //   return std::pair{std::move(tmp), info};
+  // };
   model >> passthrough >> without_meta >> /* without_params >>*/ cast >>
       increment /* >> cast_back*/;
   // model >> passthrough >> increment;
@@ -77,7 +77,8 @@ int main(int argc, char const *argv[]) {
   for (auto item : ret)
     std::cout << item << " ";
   std::cout << std::endl;
-  // Processor<bool, bool> a{[](auto sig, MetaInfo info) {
+  auto *a = new char('n');
+  // Processor<bool, bool> a{[](auto sig, MetaInfo info) { 
   //   sig[0] = 1;
   //   sig[1] = 0;
   //   return std::pair{sig, info};

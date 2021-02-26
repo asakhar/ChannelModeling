@@ -1,6 +1,6 @@
 #include "BasicUnits/MarkovBinaryChannel.hxx"
 
-int main(int argc, char const *argv[]) {
+int main(int /*argc*/, char const */*argv*/[]) {
   double const pi0 = 0;
   double const pi1 = 0.3;
   double const pi2 = 0.7;

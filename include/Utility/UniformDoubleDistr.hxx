@@ -9,7 +9,7 @@ public:
                                   to, std::numeric_limits<double>::max())} {}
   UniformDoubleDistr(UniformDoubleDistr const &ot)
       : gen{ot.gen}, dist{ot.dist} {};
-  double operator()() { return dist(gen); }
+  inline double operator()() { return dist(gen); }
 
 private:
   std::random_device rd;

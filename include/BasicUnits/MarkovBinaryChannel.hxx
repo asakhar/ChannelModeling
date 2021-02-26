@@ -1,3 +1,6 @@
+#ifndef MARKOVBINARYCHANNEL_HXX
+#define MARKOVBINARYCHANNEL_HXX
+
 #include "Utility/Matrix.hxx"
 #include "Utility/UniformDoubleDistr.hxx"
 #include "unitproto.hxx"
@@ -10,8 +13,8 @@
 class MarkovBinaryChannel : public UnitProto<bool, bool> {
 public:
   MarkovBinaryChannel(size_t number_of_states, size_t initial_state,
-                Matrix<double> transition_probabilities,
-                std::vector<double> error_probabilities)
+                      Matrix<double> transition_probabilities,
+                      std::vector<double> error_probabilities)
       : nstates{number_of_states}, initstate{initial_state},
         P{std::move(transition_probabilities)},
         Pis{std::move(error_probabilities)}, dist{0., 1.} {
@@ -39,3 +42,5 @@ public:
   std::vector<double> Pis;
   UniformDoubleDistr dist;
 };
+
+#endif // MARKOVBINARYCHANNEL_HXX

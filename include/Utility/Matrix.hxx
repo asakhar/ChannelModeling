@@ -1,8 +1,6 @@
-#include "unitproto.hxx"
-#include <cmath>
-#include <iomanip>
-#include <limits>
-#include <random>
+#ifndef MATRIX_HXX
+#define MATRIX_HXX
+
 #include <vector>
 
 template <typename Ty> struct Matrix {
@@ -66,39 +64,4 @@ template <typename Ty> struct Matrix {
   }
 };
 
-class MarkovChannel : public UnitProto<bool, bool> {
-public:
-  MarkovChannel(size_t number_of_states, size_t initial_state,
-                Matrix<double> transition_probabilities,
-                std::vector<double> error_probabilities)
-      : nstates{number_of_states}, initstate{initial_state},
-        P{std::move(transition_probabilities)}, Pis{std::move(
-                                                    error_probabilities)} {
-    P.normalize(P.Rows);
-  }
-  std::pair<std::vector<bool>, MetaInfo> operator()(std::vector<bool> &&data,
-                                                    MetaInfo &&info) override {
-    auto state = initstate;
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<double> dist{
-        0., std::nextafter(1., std::numeric_limits<double>::max())};
-
-    for (auto bit : data) {
-      auto bitflip = dist(gen);
-      bit = bit ^ (bitflip < Pis[state]);
-
-      auto translation = dist(gen);
-      auto i = 0;
-      for (; i < nstates - 1; i++)
-        if (translation <= P[state][i])
-          break;
-      state = i;
-    }
-    return std::pair{std::move(data), std::move(info)};
-  }
-
-  size_t nstates, initstate;
-  Matrix<double> P;
-  std::vector<double> Pis;
-};
+#endif // MATRIX_HXX

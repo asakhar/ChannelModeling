@@ -1,4 +1,5 @@
 #include "include/channel.hxx"
+#include "BasicUnits/BinaryGenerator.hxx"
 #include "metainfo.hxx"
 #include "unitproto.hxx"
 #include <functional>
@@ -16,7 +17,7 @@ int main(int argc, char const *argv[]) {
     meta.put(i++);
     return std::pair{std::vector<bool>{false, true, false, true}, meta};
   };
-  auto without_meta = [i = 1](std::vector<bool> &&data)mutable {
+  auto without_meta = [i = 1](std::vector<bool> &&data) mutable {
     // data[0] = false;
     auto meta = MetaInfo{};
     std::stringstream ss;
@@ -107,51 +108,51 @@ int main(int argc, char const *argv[]) {
   return 0;
 }
 
-#include <random>
+// #include <random>
 
-int test() {
-  int const repeat_times = 5;
-  double const flipping_chance = 0.01;
-  double const coin_flip_prob = 0.5;
-  int const vec_size = 50;
-  int const max_errors = 50;
+// int test() {
+//   int const repeat_times = 5;
+//   double const flipping_chance = 0.01;
+//   double const coin_flip_prob = 0.5;
+//   int const vec_size = 50;
+//   int const max_errors = 50;
 
-  RepetitionEncoder enc{repeat_times};
-  enc >> BinarySymmetricChannel{flipping_chance} >>
-      RepetitionDecoder{repeat_times};
+//   RepetitionEncoder enc{repeat_times};
+//   enc >> BinarySymmetricChannel{flipping_chance} >>
+//       RepetitionDecoder{repeat_times};
 
-  std::random_device rd;
-  std::mt19937 gen{rd()};
-  std::bernoulli_distribution bern_distr{coin_flip_prob};
-  auto fill_arr = [&bern_distr, &gen](auto &arr) {
-    for (auto &item : arr)
-      item = bern_distr(gen);
-  };
+//   std::random_device rd;
+//   std::mt19937 gen{rd()};
+//   std::bernoulli_distribution bern_distr{coin_flip_prob};
+//   auto fill_arr = [&bern_distr, &gen](auto &arr) {
+//     for (auto &item : arr)
+//       item = bern_distr(gen);
+//   };
 
-  int errs = 0;
-  std::vector<uint_fast8_t> vec{};
-  vec.resize(vec_size, 0);
-  int iters = 0;
-  while (errs < max_errors) {
-    fill_arr(vec);
-    auto res = enc.evaluate(vec);
+//   int errs = 0;
+//   std::vector<uint_fast8_t> vec{};
+//   vec.resize(vec_size, 0);
+//   int iters = 0;
+//   while (errs < max_errors) {
+//     fill_arr(vec);
+//     auto res = enc.evaluate(vec);
 
-    // ##################################
-    // std::cout << "\nResolved:\n";
-    // for (size_t i = 0; i < res.second; i++)
-    // std::cout << (bool)res.first[i];
-    // std::cout << "\nActual:\n";
+//     // ##################################
+//     // std::cout << "\nResolved:\n";
+//     // for (size_t i = 0; i < res.second; i++)
+//     // std::cout << (bool)res.first[i];
+//     // std::cout << "\nActual:\n";
 
-    // ##################################
+//     // ##################################
 
-    for (size_t i = 0; auto &item : vec) {
-      // std::cout << (bool)item;
-      if (item != res.first[i++])
-        errs++;
-    }
-    iters++;
-  }
-  std::cout << "\nIterations=" << iters << std::endl;
+//     for (size_t i = 0; auto &item : vec) {
+//       // std::cout << (bool)item;
+//       if (item != res.first[i++])
+//         errs++;
+//     }
+//     iters++;
+//   }
+//   std::cout << "\nIterations=" << iters << std::endl;
 
-  return 0;
-}
+//   return 0;
+// }

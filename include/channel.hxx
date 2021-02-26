@@ -19,7 +19,6 @@
 #include <stdexcept>
 #include <string>
 #include <string_view>
-// template <typename In_t, typename Out_t> class Model;
 using namespace std::string_literals;
 
 class TranslationData {
@@ -78,13 +77,20 @@ private:
   std::function<HandlerSignature> m_handler;
 };
 
+
+#if __cplusplus > 201703L && __cpp_concepts >= 201907L
 template <typename Ty> concept Convertible_to_function = requires(Ty ty) {
   std::function(ty);
 };
+#endif
 
 template <typename In_t, typename Out_t> class Model {
 public:
-  Model<In_t, Out_t> &operator>>(Convertible_to_function auto invocable) {
+  Model<In_t, Out_t> &operator>>(
+#if __cplusplus > 201703L && __cpp_concepts >= 201907L
+    Convertible_to_function
+#endif
+    auto invocable) {
     insert(std::function{invocable});
     return *this;
   }
@@ -189,145 +195,145 @@ private:
   std::list<std::unique_ptr<BasicUnit>> m_units;
 };
 
-template <typename In, typename Out> struct Processor1 {
-public:
-  template <typename In1, typename Out1>
-  Processor1<In, Out1>
-  operator>>(std::function<std::vector<Out1>(std::vector<In1>)> fn) & {
-    return Processor1<In, Out1>{[this, fn](std::vector<In> in, MetaInfo info) {
-      auto [in1, info1] = m_proc(in, info);
-      return std::pair{fn(in1), info1};
-    }};
-  }
-  std::pair<std::vector<Out>, MetaInfo> operator()(std::vector<In> in,
-                                                   MetaInfo info) {
-    return m_proc(in, info);
-  }
-  std::function<std::pair<std::vector<Out>, MetaInfo>(std::vector<In>,
-                                                      MetaInfo)>
-      m_proc;
-};
+// template <typename In, typename Out> struct Processor1 {
+// public:
+//   template <typename In1, typename Out1>
+//   Processor1<In, Out1>
+//   operator>>(std::function<std::vector<Out1>(std::vector<In1>)> fn) & {
+//     return Processor1<In, Out1>{[this, fn](std::vector<In> in, MetaInfo info) {
+//       auto [in1, info1] = m_proc(in, info);
+//       return std::pair{fn(in1), info1};
+//     }};
+//   }
+//   std::pair<std::vector<Out>, MetaInfo> operator()(std::vector<In> in,
+//                                                    MetaInfo info) {
+//     return m_proc(in, info);
+//   }
+//   std::function<std::pair<std::vector<Out>, MetaInfo>(std::vector<In>,
+//                                                       MetaInfo)>
+//       m_proc;
+// };
 
-class Decorator {
+// class Decorator {
 
-public:
-  using Data_t = uint_fast8_t;
-  using SmartArr_t = std::unique_ptr<Data_t[]>;
-  using Array_t = std::pair<SmartArr_t, size_t>;
-  constexpr Decorator() = default;
-  virtual ~Decorator();
+// public:
+//   using Data_t = uint_fast8_t;
+//   using SmartArr_t = std::unique_ptr<Data_t[]>;
+//   using Array_t = std::pair<SmartArr_t, size_t>;
+//   constexpr Decorator() = default;
+//   virtual ~Decorator();
 
-  Array_t evaluate(Data_t const *data, size_t block_size);
+//   Array_t evaluate(Data_t const *data, size_t block_size);
 
-#if __cplusplus > 201703L && __cpp_concepts >= 201907L
-  Array_t evaluate(std::basic_string_view<Data_t> data);
-#endif
-  Array_t evaluate(std::vector<Data_t> const &data);
+// #if __cplusplus > 201703L && __cpp_concepts >= 201907L
+//   Array_t evaluate(std::basic_string_view<Data_t> data);
+// #endif
+//   Array_t evaluate(std::vector<Data_t> const &data);
 
-  // template <typename Fn> Decorator &operator>>(std::function<Fn>) {}
+//   // template <typename Fn> Decorator &operator>>(std::function<Fn>) {}
 
-  Decorator &operator>>(Decorator &next);
+//   Decorator &operator>>(Decorator &next);
 
-#if __cplusplus > 201703L && __cpp_concepts >= 201907L
-  template <std::derived_from<Decorator> Dec>
-#else
-  template <typename Dec>
-#endif
-  Decorator &operator>>(Dec &&next) {
-    m_next = new Dec{std::forward<Dec>(next)};
-    m_next_on_heap = true;
-    return *m_next;
-  }
+// #if __cplusplus > 201703L && __cpp_concepts >= 201907L
+//   template <std::derived_from<Decorator> Dec>
+// #else
+//   template <typename Dec>
+// #endif
+//   Decorator &operator>>(Dec &&next) {
+//     m_next = new Dec{std::forward<Dec>(next)};
+//     m_next_on_heap = true;
+//     return *m_next;
+//   }
 
-protected:
-  class RunReturn {
-  public:
-    RunReturn(Decorator *dec, Decorator::SmartArr_t &&fwd, size_t bs);
-    inline operator Decorator::Array_t() { return std::move(res); }
+// protected:
+//   class RunReturn {
+//   public:
+//     RunReturn(Decorator *dec, Decorator::SmartArr_t &&fwd, size_t bs);
+//     inline operator Decorator::Array_t() { return std::move(res); }
 
-  private:
-    Decorator::Array_t res;
-  };
+//   private:
+//     Decorator::Array_t res;
+//   };
 
-  virtual RunReturn run(SmartArr_t data, size_t block_size) = 0;
-  inline Array_t runNext(SmartArr_t data, size_t block_size) {
-    if (m_next != nullptr)
-      return m_next->run(std::forward<SmartArr_t>(data), block_size);
-    return {std::forward<SmartArr_t>(data), block_size};
-  }
+//   virtual RunReturn run(SmartArr_t data, size_t block_size) = 0;
+//   inline Array_t runNext(SmartArr_t data, size_t block_size) {
+//     if (m_next != nullptr)
+//       return m_next->run(std::forward<SmartArr_t>(data), block_size);
+//     return {std::forward<SmartArr_t>(data), block_size};
+//   }
 
-private:
-  Decorator *m_next = 0;
-  bool m_next_on_heap = false;
-};
+// private:
+//   Decorator *m_next = 0;
+//   bool m_next_on_heap = false;
+// };
 
-class RepetitionEncoder : public Decorator {
-public:
-  constexpr inline RepetitionEncoder(size_t N) { setN(N); }
+// class RepetitionEncoder : public Decorator {
+// public:
+//   constexpr inline RepetitionEncoder(size_t N) { setN(N); }
 
-  constexpr inline void setN(size_t N) {
-    n = N;
-#ifndef NDEBUG
-    if (!(n % 2))
-      std::cerr << "[Warning] In call to RepetitonEncoder{N}: N=" << n
-                << " is not odd.\n";
-#endif
-  }
-  constexpr inline size_t getN() const { return n; }
+//   constexpr inline void setN(size_t N) {
+//     n = N;
+// #ifndef NDEBUG
+//     if (!(n % 2))
+//       std::cerr << "[Warning] In call to RepetitonEncoder{N}: N=" << n
+//                 << " is not odd.\n";
+// #endif
+//   }
+//   constexpr inline size_t getN() const { return n; }
 
-protected:
-  RunReturn run(SmartArr_t data, size_t block_size) override;
+// protected:
+//   RunReturn run(SmartArr_t data, size_t block_size) override;
 
-private:
-  size_t n = 0;
-};
+// private:
+//   size_t n = 0;
+// };
 
-class RepetitionDecoder : public Decorator {
-public:
-  constexpr inline RepetitionDecoder(size_t N) { setN(N); }
+// class RepetitionDecoder : public Decorator {
+// public:
+//   constexpr inline RepetitionDecoder(size_t N) { setN(N); }
 
-  constexpr inline void setN(size_t N) {
-    n = N;
-#ifndef NDEBUG
-    if (!(n % 2))
-      std::cerr << "[Warning] In call to RepetitonEncoder{N}: N=" << n
-                << " is not odd.\n";
-#endif
-  }
-  constexpr inline size_t getN() const { return n; }
+//   constexpr inline void setN(size_t N) {
+//     n = N;
+// #ifndef NDEBUG
+//     if (!(n % 2))
+//       std::cerr << "[Warning] In call to RepetitonEncoder{N}: N=" << n
+//                 << " is not odd.\n";
+// #endif
+//   }
+//   constexpr inline size_t getN() const { return n; }
 
-protected:
-  RunReturn run(SmartArr_t data, size_t block_size) override;
+// protected:
+//   RunReturn run(SmartArr_t data, size_t block_size) override;
 
-private:
-  size_t n = 0;
-};
+// private:
+//   size_t n = 0;
+// };
 
-class ParityCheckEncoder : public Decorator {
-public:
-  constexpr inline ParityCheckEncoder(size_t N) { setN(N); }
+// class ParityCheckEncoder : public Decorator {
+// public:
+//   constexpr inline ParityCheckEncoder(size_t N) { setN(N); }
 
-  constexpr inline void setN(size_t N) { n = N; }
+//   constexpr inline void setN(size_t N) { n = N; }
 
-  constexpr inline size_t getN() const { return n; }
+//   constexpr inline size_t getN() const { return n; }
 
-protected:
-  RunReturn run(SmartArr_t data, size_t block_size) override;
+// protected:
+//   RunReturn run(SmartArr_t data, size_t block_size) override;
 
-private:
-  size_t n = 0;
-};
+// private:
+//   size_t n = 0;
+// };
 
-class BinarySymmetricChannel : public Decorator {
-public:
-  BinarySymmetricChannel(double bitflip_prob);
+// class BinarySymmetricChannel : public Decorator {
+// public:
+//   BinarySymmetricChannel(double bitflip_prob);
 
-protected:
-  RunReturn run(SmartArr_t data, size_t block_size) override;
+// protected:
+//   RunReturn run(SmartArr_t data, size_t block_size) override;
 
-private:
-  double p;
-  std::bernoulli_distribution m_bern_distr;
-};
+// private:
+//   double p;
+//   std::bernoulli_distribution m_bern_distr;
+// };
 
 #endif // CHANNEL_HXX

@@ -2,6 +2,7 @@
 #include "metainfo.hxx"
 #include "unitproto.hxx"
 #include <functional>
+#include <sstream>
 #include <vector>
 int test();
 
@@ -15,11 +16,13 @@ int main(int argc, char const *argv[]) {
     meta.put(i++);
     return std::pair{std::vector<bool>{false, true, false, true}, meta};
   };
-  auto without_meta = [](std::vector<bool> &&data) {
+  auto without_meta = [i = 1](std::vector<bool> &&data)mutable {
     // data[0] = false;
     auto meta = MetaInfo{};
-    meta.put('i');
-    return std::pair{std::move(data), meta};
+    std::stringstream ss;
+    ss << "i=" << i++;
+    meta.put(ss.str().c_str());
+    return std::pair{std::move(data), std::move(meta)};
   };
   auto passthrough = [](std::vector<bool> &&data, MetaInfo &&info) {
     info.put("some meta");
@@ -52,7 +55,7 @@ int main(int argc, char const *argv[]) {
     for (auto &item : data)
       item += 1.;
     std::cout << info.get<char const *>() << "\n"
-              << info.get<char>() << std::endl;
+              << (info.find<char>() != std::end(info) ? info.get<char>() : ' ') << std::endl;
     return std::pair{std::move(data), info};
   };
   auto cast_back = [](std::vector<double> &&data, MetaInfo &&info) {
@@ -66,6 +69,10 @@ int main(int argc, char const *argv[]) {
   // model >> passthrough >> increment;
   // model >> std::function(passthrough) >> std::function(cast) >> increment;
   auto ret = model({true, false, true});
+  for (auto item : ret)
+    std::cout << item << " ";
+  std::cout << std::endl;
+  ret = model({true, false, true});
   for (auto item : ret)
     std::cout << item << " ";
   std::cout << std::endl;

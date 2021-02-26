@@ -15,3 +15,5 @@ add_library(BasicModels src/channel.cxx)
 target_compile_definitions(BasicModels PUBLIC NDEBUG)
 target_link_libraries(BasicModels default)
 
+add_executable(Markov MarkovChannel.cpp)
+target_link_libraries(Markov default)

@@ -35,9 +35,7 @@ public:
         m_data);
   }
   MetaInfo &get_info() { return m_info; }
-  char const* get_type_name() const{
-    return m_data.type().name();
-  }
+  char const *get_type_name() const { return m_data.type().name(); }
 
 private:
   std::any m_data;
@@ -48,8 +46,8 @@ class BasicUnit {
 public:
   virtual TranslationData operator()(TranslationData &) = 0;
   virtual ~BasicUnit() = default;
-  virtual char const* get_in_name() const = 0;
-  virtual char const* get_out_name() const = 0;
+  virtual char const *get_in_name() const = 0;
+  virtual char const *get_out_name() const = 0;
   struct EmptyObject {};
 };
 
@@ -68,20 +66,17 @@ public:
       auto ret = m_handler(std::move(val), std::move(inf));
       return {std::move(ret.first), std::move(ret.second)};
     } catch (std::bad_any_cast &e) {
-      throw std::logic_error("Serial units in&out type mismatch ("s + typeid(std::vector<In_t>).name() +" != "s + data.get_type_name() + ").");
+      throw std::logic_error("Serial units in&out type mismatch ("s +
+                             typeid(std::vector<In_t>).name() + " != "s +
+                             data.get_type_name() + ").");
     }
   }
-  char const* get_in_name() const override {
-    return typeid(In_t).name();
-  }
-  char const* get_out_name() const override {
-    return typeid(Out_t).name();
-  }
+  char const *get_in_name() const override { return typeid(In_t).name(); }
+  char const *get_out_name() const override { return typeid(Out_t).name(); }
 
 private:
   std::function<HandlerSignature> m_handler;
 };
-
 
 template <typename Ty> concept Convertible_to_function = requires(Ty ty) {
   std::function(ty);
@@ -101,9 +96,10 @@ public:
     insert(model_step);
     return *this;
   }
-template <typename In, typename Out>
-  void
-  insert(std::function<std::pair<std::vector<Out>, MetaInfo>(std::vector<In>&&)> model_step) {
+  template <typename In, typename Out>
+  void insert(
+      std::function<std::pair<std::vector<Out>, MetaInfo>(std::vector<In> &&)>
+          model_step) {
     if (m_units.empty() && typeid(In) != typeid(In_t))
       throw std::logic_error("First unit and model input type mismatch ("s +
                              typeid(In_t).name() + " != "s +
@@ -114,7 +110,8 @@ template <typename In, typename Out>
         info.put(item.second);
       return std::pair{std::move(ret.first), std::move(info)};
     };
-    auto new_unit = std::make_unique<ProcessorUnit<bool, Out>>(std::function(func));
+    auto new_unit =
+        std::make_unique<ProcessorUnit<bool, Out>>(std::function(func));
     m_units.emplace_back(std::move(new_unit));
   }
 
@@ -125,13 +122,16 @@ template <typename In, typename Out>
       throw std::logic_error("First unit and model input type mismatch ("s +
                              typeid(In_t).name() + " != "s +
                              typeid(void).name() + ")."s);
-    auto func = [model_step](std::vector<BasicUnit::EmptyObject> &&v, MetaInfo &&info) {
+    auto func = [model_step](std::vector<BasicUnit::EmptyObject> &&v,
+                             MetaInfo &&info) {
       auto ret = model_step();
       for (auto &item : ret.second)
         info.put(item.second);
       return std::pair{std::move(ret.first), std::move(info)};
     };
-    auto new_unit = std::make_unique<ProcessorUnit<BasicUnit::EmptyObject, Out>>(std::function(func));
+    auto new_unit =
+        std::make_unique<ProcessorUnit<BasicUnit::EmptyObject, Out>>(
+            std::function(func));
     m_units.emplace_back(std::move(new_unit));
   }
   template <typename In, typename Out>
@@ -139,7 +139,9 @@ template <typename In, typename Out>
   insert(std::function<std::pair<std::vector<Out>, MetaInfo>(std::vector<In> &&,
                                                              MetaInfo &&)>
              model_step) {
-    if (m_units.empty() && typeid(In) != typeid(In_t) && (typeid(In_t) != typeid(void) && typeid(In) != typeid(BasicUnit::EmptyObject)))
+    if (m_units.empty() && typeid(In) != typeid(In_t) &&
+        (typeid(In_t) != typeid(void) &&
+         typeid(In) != typeid(BasicUnit::EmptyObject)))
       throw std::logic_error("First unit and model input type mismatch ("s +
                              typeid(In_t).name() + " != "s + typeid(In).name() +
                              ")."s);
@@ -147,7 +149,8 @@ template <typename In, typename Out>
     m_units.emplace_back(std::move(new_unit));
   }
   std::vector<Out_t> operator()() {
-    if (typeid(In_t) != typeid(void) && typeid(In_t) != typeid(BasicUnit::EmptyObject))
+    if (typeid(In_t) != typeid(void) &&
+        typeid(In_t) != typeid(BasicUnit::EmptyObject))
       throw std::logic_error(
           "Can't invoke model without params as it takes some.");
     if (m_units.empty())
@@ -160,10 +163,12 @@ template <typename In, typename Out>
       return current.get<Out_t>();
     } catch (std::bad_any_cast &e) {
       throw std::logic_error(
-          "Last unit return type is invalid for this model ("s+m_units.back()->get_out_name()+" != "s+ typeid(Out_t).name()+")."s);
+          "Last unit return type is invalid for this model ("s +
+          m_units.back()->get_out_name() + " != "s + typeid(Out_t).name() +
+          ")."s);
     }
   }
-  std::vector<Out_t> operator()(std::vector<In_t> &&input) {
+  std::vector<Out_t> operator()(std::vector<In_t> input) {
     if (m_units.empty())
       return std::vector<Out_t>{};
     TranslationData current{std::move(input), MetaInfo{}};
@@ -174,7 +179,9 @@ template <typename In, typename Out>
       return current.get<Out_t>();
     } catch (std::bad_any_cast &e) {
       throw std::logic_error(
-          "Last unit return type is invalid for this model ("s+m_units.back()->get_out_name()+" != "s+ typeid(Out_t).name()+")."s);
+          "Last unit return type is invalid for this model ("s +
+          m_units.back()->get_out_name() + " != "s + typeid(Out_t).name() +
+          ")."s);
     }
   }
 

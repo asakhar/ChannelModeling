@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.12)
 project(ChannelModeling VERSION 0.1)
 
 add_library(default INTERFACE)
-target_compile_options(default INTERFACE -O3)
+target_compile_options(default INTERFACE -O0)
 target_compile_features(default INTERFACE cxx_std_20)
 target_include_directories(default INTERFACE include)
 target_precompile_headers(default INTERFACE pch.h)
@@ -18,3 +18,6 @@ target_link_libraries(BasicModels default)
 
 add_executable(Markov MarkovResearch.cpp)
 target_link_libraries(Markov default)
+
+add_executable(Test1 src/channel.cpp)
+target_link_libraries(Test1 default)

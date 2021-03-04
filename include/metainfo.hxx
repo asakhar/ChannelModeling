@@ -27,7 +27,7 @@ public:
     return m_data.end();
   }
   template<typename Ty>
-  inline auto find() {
+  auto find() {
     return m_data.find(typeid(Ty));
   }
 

@@ -122,27 +122,27 @@ public:
                                         i.value, std::tuple<Functors...>>>>;
         static_assert(std::is_same_v<Second_arg, MetaInfo&>,
                       "Second arg must be MetaInfo reference.");
-        if constexpr (i.value + 1 != N) {
+        // if constexpr (i.value + 1 != N) {
           using Next_in_t = std::tuple_element_t<
               0, arguments_of_t<std::tuple_element_t<i.value + 1,
-                                                     std::tuple<Functors...>>>>;
+                                                     std::tuple<Functors..., void(Out_t)>>>>;
           in_next = std::make_any<Next_in_t>(std::move(
               std::get<i.value>(m_units)(std::any_cast<Now_in_t>(in_next), meta)));
-        } else {
-          in_next = std::make_any<Out_t>(std::move(
-              std::get<i.value>(m_units)(std::any_cast<Now_in_t>(in_next), meta)));
-        }
+        // } else {
+        //   in_next = std::make_any<Out_t>(std::move(
+        //       std::get<i.value>(m_units)(std::any_cast<Now_in_t>(in_next), meta)));
+        // }
       } else if constexpr (arg_size == 1) {
-        if constexpr (i.value + 1 != N) {
+        // if constexpr (i.value + 1 != N) {
           using Next_in_t = std::tuple_element_t<
               0, arguments_of_t<std::tuple_element_t<i.value + 1,
-                                                     std::tuple<Functors...>>>>;
+                                                     std::tuple<Functors..., void(Out_t)>>>>;
           in_next = std::make_any<Next_in_t>(std::move(
               std::get<i.value>(m_units)(std::any_cast<Now_in_t>(in_next))));
-        } else {
-          in_next = std::make_any<Out_t>(std::move(
-              std::get<i.value>(m_units)(std::any_cast<Now_in_t>(in_next))));
-        }
+        // } else {
+        //   in_next = std::make_any<Out_t>(std::move(
+        //       std::get<i.value>(m_units)(std::any_cast<Now_in_t>(in_next))));
+        // }
       }
     });
     return std::any_cast<Out_t>(in_next);

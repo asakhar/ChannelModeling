@@ -2,12 +2,14 @@
 #include "BasicUnits/BinaryGenerator.hxx"
 #include "metainfo.hxx"
 #include "unitproto.hxx"
+#include <exception>
 #include <functional>
 #include <sstream>
 #include <vector>
 int test();
 
 int main(int /*argc*/, char const */*argv*/[]) {
+  try {
   Model<bool, double> model;
   UnitProto<bool, bool> proto;
   model >> proto;
@@ -77,7 +79,7 @@ int main(int /*argc*/, char const */*argv*/[]) {
   for (auto item : ret)
     std::cout << item << " ";
   std::cout << std::endl;
-  auto *a = new char('n');
+  // auto *a = new char('n');
   // Processor<bool, bool> a{[](auto sig, MetaInfo info) { 
   //   sig[0] = 1;
   //   sig[1] = 0;
@@ -106,6 +108,9 @@ int main(int /*argc*/, char const */*argv*/[]) {
   // for (size_t i = 0; i < res.second; i++)
   //   std::cout << (bool)res.first[i];
   // std::cout << std::endl;
+  }catch(std::exception& e) {
+    std::cerr << e.what();
+  }
   return 0;
 }
 

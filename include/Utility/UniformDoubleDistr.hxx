@@ -4,6 +4,7 @@
 
 class UniformDoubleDistr {
 public:
+  UniformDoubleDistr() = default;
   UniformDoubleDistr(double from, double to)
       : gen{rd()}, dist{from, std::nextafter(
                                   to, std::numeric_limits<double>::max())} {}

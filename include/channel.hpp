@@ -11,6 +11,8 @@
 #include <type_traits>
 #include <utility>
 
+struct EmptyObject {};
+
 template <typename Functor> struct result_of { using type = void; };
 
 template <typename Functor>
@@ -87,15 +89,16 @@ template <std::size_t N, typename F> constexpr void for_(F func) {
   for_(func, std::make_index_sequence<N>());
 }
 
-template <typename... Functors> class Model {
+template <typename... Functors>
+requires((std::is_default_constructible_v<Functors> && ...) &&
+         (std::is_copy_constructible_v<Functors> && ...)) class Model {
 public:
   static constexpr size_t N = sizeof...(Functors);
-  using In_t = std::tuple_element_t<
-      0, arguments_of_t<std::tuple_element_t<0, std::tuple<Functors...>>>>;
-  using Out_t =
-      result_of_t<std::tuple_element_t<N - 1, std::tuple<Functors...>>>;
-  Model(Functors const &...fns) {
-    std::tuple<Functors...> m_units{fns...};
+  using In_t = std::decay_t<std::tuple_element_t<
+      0, arguments_of_t<std::tuple_element_t<0, std::tuple<Functors...>>>>>;
+  using Out_t = std::decay_t<
+      result_of_t<std::tuple_element_t<N - 1, std::tuple<Functors...>>>>;
+  Model(Functors const &...fns) : m_units{std::move(fns)...} {
     for_<N - 1>([](auto const i) {
       using In_next =
           std::tuple_element_t<0, arguments_of_t<std::tuple_element_t<
@@ -107,7 +110,14 @@ public:
     });
   }
 
-  Out_t operator()(In_t input) const {
+  template <bool _
+            // std::enable_if_t<std::is_same_v<EmptyObject, In_t>, bool>
+            = true>
+  requires std::is_same_v<EmptyObject, In_t> Out_t operator()() {
+    return std::move(operator()(EmptyObject{}));
+  }
+
+  Out_t operator()(std::decay_t<In_t> input) {
     std::any in_next = std::make_any<In_t>(std::move(input));
     MetaInfo meta{};
     for_<N>([this, &in_next, &meta](auto const i) {
@@ -120,28 +130,29 @@ public:
         using Second_arg =
             std::tuple_element_t<1, arguments_of_t<std::tuple_element_t<
                                         i.value, std::tuple<Functors...>>>>;
-        static_assert(std::is_same_v<Second_arg, MetaInfo&>,
+        static_assert(std::is_same_v<Second_arg, MetaInfo &>,
                       "Second arg must be MetaInfo reference.");
-          using Next_in_t = std::tuple_element_t<
-              0, arguments_of_t<std::tuple_element_t<i.value + 1,
-                                                     std::tuple<Functors..., void(Out_t)>>>>;
-          in_next = std::make_any<Next_in_t>(std::move(
-              std::get<i.value>(m_units)(std::any_cast<Now_in_t>(in_next), meta)));
+        using Next_in_t = std::tuple_element_t<
+            0, arguments_of_t<std::tuple_element_t<
+                   i.value + 1, std::tuple<Functors..., void(Out_t)>>>>;
+        in_next = std::make_any<Next_in_t>(std::move(std::get<i.value>(m_units)(
+            std::any_cast<Now_in_t>(in_next), meta)));
       } else if constexpr (arg_size == 1) {
-          using Next_in_t = std::tuple_element_t<
-              0, arguments_of_t<std::tuple_element_t<i.value + 1,
-                                                     std::tuple<Functors..., void(Out_t)>>>>;
-          in_next = std::make_any<Next_in_t>(std::move(
-              std::get<i.value>(m_units)(std::any_cast<Now_in_t>(in_next))));
+        using Next_in_t = std::tuple_element_t<
+            0, arguments_of_t<std::tuple_element_t<
+                   i.value + 1, std::tuple<Functors..., void(Out_t)>>>>;
+        in_next = std::make_any<Next_in_t>(std::move(
+            std::get<i.value>(m_units)(std::any_cast<Now_in_t>(in_next))));
       } else {
-        static_assert(arg_size == 1 || arg_size == 2, "Invalid number of argumnets.");
+        static_assert(arg_size == 1 || arg_size == 2,
+                      "Invalid number of argumnets.");
       }
     });
     return std::any_cast<Out_t>(in_next);
   }
 
 private:
-  std::tuple<Functors...> m_units;
+  std::tuple<std::decay_t<Functors>...> m_units;
 };
 
 #endif // CHANNEL_HPP

@@ -6,6 +6,7 @@
 template <typename Ty> struct Matrix {
   size_t dimr, dimc;
   std::vector<double> data;
+  Matrix() = default;
   Matrix(std::vector<std::vector<Ty>> const &rows) {
     dimr = rows.size();
     dimc = rows.at(dimr - 1).size();

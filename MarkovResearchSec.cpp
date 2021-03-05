@@ -20,7 +20,7 @@ int main(int /*argc*/, char const */*argv*/[]) {
   double const p22 = 3.;
 
   // std::vector<bool> input;
-  int const n = 46;
+  int const n = 1000;
   // input.resize(n, false);
 
   Matrix<double> P{std::vector<std::vector<double>>{

@@ -1,116 +1,115 @@
-#include "include/channel.hxx"
-#include "BasicUnits/BinaryGenerator.hxx"
+#include "BasicUnits/BinaryGenerator.hpp"
+#include "include/channel.hpp"
 #include "metainfo.hxx"
-#include "unitproto.hxx"
+#include "unitproto.hpp"
 #include <exception>
 #include <functional>
 #include <sstream>
 #include <vector>
 int test();
 
-int main(int /*argc*/, char const */*argv*/[]) {
-  try {
-  Model<bool, double> model;
-  UnitProto<bool, bool> proto;
-  model >> proto;
+int main(int /*argc*/, char const * /*argv*/[]) {
+  // try {
+    UnitProto<std::vector<bool>, std::vector<bool>> proto;
 
-  // auto without_params = [i = 1]() mutable {
-  //   auto meta = MetaInfo{};
-  //   meta.put(i++);
-  //   return std::pair{std::vector<bool>{false, true, false, true}, meta};
-  // };
-  auto without_meta = [i = 1](std::vector<bool> &&data) mutable {
-    // data[0] = false;
-    auto meta = MetaInfo{};
-    std::stringstream ss;
-    ss << "i=" << i++;
-    meta.put(ss.str().c_str());
-    return std::pair{std::move(data), std::move(meta)};
-  };
-  auto passthrough = [](std::vector<bool> &&data, MetaInfo &&info) {
-    info.put("some meta");
-    std::cout << info.get<UnitProto<bool, bool>::UnitInfo>().info << "\n"
-              << info.get<char const *>() << std::endl;
-    return std::pair{data, info};
-  };
+    // auto without_params = [i = 1]() mutable {
+    //   auto meta = MetaInfo{};
+    //   meta.put(i++);
+    //   return std::pair{std::vector<bool>{false, true, false, true}, meta};
+    // };
+    auto without_meta = [i = 1](std::vector<bool> &data) mutable {
+      // data[0] = false;
+      auto meta = MetaInfo{};
+      std::stringstream ss;
+      ss << "i=" << i++;
+      meta.put(ss.str().c_str());
+      return std::move(data);
+    };
+    auto passthrough = [](std::vector<bool> &data, MetaInfo &info) {
+      info.put("some meta");
+      std::cout << info.get<UnitProto<std::vector<bool>, std::vector<bool>>::UnitInfo>().info << "\n"
+                << info.get<char const *>() << std::endl;
+      return std::move(data);
+    };
 
-  Model<void, bool> model2;
-  double const prob = 0.6;
-  size_t const number = 20;
-  BinaryGenerator bingen(prob, number);
-  model2 >> bingen;
-  // model2 >> without_params >> passthrough >> without_params >> passthrough;
+    double const prob = 0.6;
+    size_t const number = 20;
+    BinaryGenerator bingen(prob, number);
+    Model model2{bingen};
+    // model2 >> without_params >> passthrough >> without_params >> passthrough;
 
-  auto ret2 = model2();
-  for (auto item : ret2)
-    std::cout << item << " ";
-  std::cout << std::endl;
-  //exit(0);
+    auto ret2 = model2();
+    for (auto item : ret2)
+      std::cout << item << " ";
+    std::cout << std::endl;
+    // exit(0);
 
-  auto cast = [](std::vector<bool> &&data, MetaInfo &&info) {
-    std::vector<double> tmp;
-    auto const dummy = 0.1;
-    for (auto item : data)
-      tmp.emplace_back((double)item + dummy);
-    return std::pair{std::move(tmp), info};
-  };
-  auto increment = [](std::vector<double> &&data, MetaInfo &&info) {
-    for (auto &item : data)
-      item += 1.;
-    std::cout << info.get<char const *>() << "\n"
-              << (info.find<char>() != std::end(info) ? info.get<char>() : ' ') << std::endl;
-    return std::pair{std::move(data), info};
-  };
-  // auto cast_back = [](std::vector<double> &&data, MetaInfo &&info) {
-  //   std::vector<bool> tmp;
-  //   for (auto item : data)
-  //     tmp.emplace_back((bool)item);
-  //   return std::pair{std::move(tmp), info};
-  // };
-  model >> passthrough >> without_meta >> /* without_params >>*/ cast >>
-      increment /* >> cast_back*/;
-  // model >> passthrough >> increment;
-  // model >> std::function(passthrough) >> std::function(cast) >> increment;
-  auto ret = model({true, false, true});
-  for (auto item : ret)
-    std::cout << item << " ";
-  std::cout << std::endl;
-  ret = model({true, false, true});
-  for (auto item : ret)
-    std::cout << item << " ";
-  std::cout << std::endl;
-  // auto *a = new char('n');
-  // Processor<bool, bool> a{[](auto sig, MetaInfo info) { 
-  //   sig[0] = 1;
-  //   sig[1] = 0;
-  //   return std::pair{sig, info};
-  // }};
-  // auto worker =
-  //     a >> std::function{[](std::vector<bool> sig) {
-  //       std::vector<double> ret;
-  //       ret.resize(sig.size());
-  //       std::random_device rd;
-  //       std::mt19937 gen{rd()};
-  //       for (auto i = 0; auto &item : ret) {
-  //         item = (double)sig[i++] + std::fmod(((double)gen()) / 100., 1.);
-  //       }
-  //       return ret;
-  //     }};
-  // auto res = worker({false,true,false,false,false,false}, MetaInfo{});
-  // for(auto &i : res.first) {
-  //   std::cout << i << " ";
+    auto cast = [](std::vector<bool> &data, MetaInfo &/*info*/) {
+      std::vector<double> tmp;
+      auto const dummy = 0.1;
+      for (auto item : data)
+        tmp.emplace_back((double)item + dummy);
+      return tmp;
+    };
+    auto increment = [](std::vector<double> &data, MetaInfo &info) {
+      for (auto &item : data)
+        item += 1.;
+      std::cout << info.get<char const *>() << "\n"
+                << (info.find<char>() != std::end(info) ? info.get<char>()
+                                                        : ' ')
+                << std::endl;
+      return std::move(data);
+    };
+    // auto cast_back = [](std::vector<double> &&data, MetaInfo &&info) {
+    //   std::vector<bool> tmp;
+    //   for (auto item : data)
+    //     tmp.emplace_back((bool)item);
+    //   return std::pair{std::move(tmp), info};
+    // };
+    // std::is_default_constructible_v<decltype(without_meta)>;
+    Model model{proto, passthrough, without_meta, cast, increment};
+    // model >> passthrough >> increment;
+    // model >> std::function(passthrough) >> std::function(cast) >> increment;
+    auto ret = model({true, false, true});
+    for (auto item : ret)
+      std::cout << item << " ";
+    std::cout << std::endl;
+    ret = model({true, false, true});
+    for (auto item : ret)
+      std::cout << item << " ";
+    std::cout << std::endl;
+    // auto *a = new char('n');
+    // Processor<bool, bool> a{[](auto sig, MetaInfo info) {
+    //   sig[0] = 1;
+    //   sig[1] = 0;
+    //   return std::pair{sig, info};
+    // }};
+    // auto worker =
+    //     a >> std::function{[](std::vector<bool> sig) {
+    //       std::vector<double> ret;
+    //       ret.resize(sig.size());
+    //       std::random_device rd;
+    //       std::mt19937 gen{rd()};
+    //       for (auto i = 0; auto &item : ret) {
+    //         item = (double)sig[i++] + std::fmod(((double)gen()) / 100., 1.);
+    //       }
+    //       return ret;
+    //     }};
+    // auto res = worker({false,true,false,false,false,false}, MetaInfo{});
+    // for(auto &i : res.first) {
+    //   std::cout << i << " ";
+    // }
+    // std::cout << std::endl;
+    // RepetitionDecoder a{4};
+    // test();
+    // ParityCheckEncoder rep{3};
+    // auto res = rep.evaluate({0, 0, 1, 1, 0, 1});
+    // for (size_t i = 0; i < res.second; i++)
+    //   std::cout << (bool)res.first[i];
+    // std::cout << std::endl;
+  // } catch (std::exception &e) {
+  //   std::cerr << e.what();
   // }
-  // std::cout << std::endl;
-  // RepetitionDecoder a{4};
-  // test();
-  // ParityCheckEncoder rep{3};
-  // auto res = rep.evaluate({0, 0, 1, 1, 0, 1});
-  // for (size_t i = 0; i < res.second; i++)
-  //   std::cout << (bool)res.first[i];
-  // std::cout << std::endl;
-  }catch(std::exception& e) {
-    std::cerr << e.what();
-  }
   return 0;
 }
 

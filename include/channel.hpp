@@ -89,37 +89,72 @@ template <std::size_t N, typename F> constexpr void for_(F func) {
   for_(func, std::make_index_sequence<N>());
 }
 
+// template <typename ModelClass, typename... Functors> class EmptyParanToggler {};
+// requires (!std::is_same_v<
+//     EmptyObject,
+//     std::decay_t<std::tuple_element_t<
+//         0, arguments_of_t<std::tuple_element_t<
+//                0, std::tuple<
+//                       Functors...>>>>>> )
+
+// std::enable_if_t<std::is_same_v<EmptyObject,
+// std::decay_t<std::tuple_element_t<
+//       0, arguments_of_t<std::tuple_element_t<0, std::tuple<Functors...>>>>>>>
+
+// template <typename ModelClass, typename... Functors>
+// requires std::is_same_v<
+//     EmptyObject,
+//     std::decay_t<std::tuple_element_t<
+//         0, arguments_of_t<std::tuple_element_t<
+//                0, std::tuple<
+//                       Functors...>>>>>> class EmptyParanToggler<ModelClass,
+//                                                                 Functors...> {
+// public:
+//   static constexpr size_t N = sizeof...(Functors);
+//   using Out_t = std::decay_t<
+//       result_of_t<std::tuple_element_t<N - 1, std::tuple<Functors...>>>>;
+//   Out_t operator()() { return std::move(operator()(EmptyObject{})); }
+
+//   Out_t operator()(MetaInfo &meta) {
+//     return std::move(operator()(EmptyObject{}, meta));
+//   }
+// };
+
+// template <typename ModelClass>
+// class EmptyParanToggler<
+//     ModelClass,
+//     std::enable_if_t<!std::is_same_v<EmptyObject, ModelClass::In_t>>> {};
+
 template <typename... Functors>
-requires((std::is_default_constructible_v<Functors> && ...) &&
-         (std::is_copy_constructible_v<Functors> && ...)) class Model {
+requires(
+    // (std::is_default_constructible_v<Functors> && ...) &&
+    (std::is_copy_constructible_v<Functors> &&...)) class Model
+
+    // : public EmptyParanToggler<Model<Functors...>, Functors...> 
+    {
 public:
   static constexpr size_t N = sizeof...(Functors);
+
+  // using EmptyParanToggler<Model<Functors...>, Functors...>::operator();
   using In_t = std::decay_t<std::tuple_element_t<
       0, arguments_of_t<std::tuple_element_t<0, std::tuple<Functors...>>>>>;
   using Out_t = std::decay_t<
       result_of_t<std::tuple_element_t<N - 1, std::tuple<Functors...>>>>;
-  Model(Functors const &...fns) : m_units{std::move(fns)...} {
+  Model(Functors const&...fns) : m_units{fns...} {
     for_<N - 1>([](auto const i) {
       using In_next =
           std::tuple_element_t<0, arguments_of_t<std::tuple_element_t<
                                       i.value + 1, std::tuple<Functors...>>>>;
       using Out_prev =
           result_of_t<std::tuple_element_t<i.value, std::tuple<Functors...>>>;
-      static_assert(std::is_convertible_v<std::decay_t<Out_prev>, In_next>,
-                    "Serial data input/output types must be the same.");
+      static_assert(
+          std::is_convertible_v<std::decay_t<Out_prev>, std::decay_t<In_next>>,
+          "Serial data input/output types must be the same.");
     });
   }
 
-  template <bool _
-            // std::enable_if_t<std::is_same_v<EmptyObject, In_t>, bool>
-            = true>
-  requires std::is_same_v<EmptyObject, In_t> Out_t operator()() {
-    return std::move(operator()(EmptyObject{}));
-  }
-
-  Out_t operator()(std::decay_t<In_t> input) {
+  Out_t operator()(std::decay_t<In_t> input, MetaInfo &meta) {
     std::any in_next = std::make_any<In_t>(std::move(input));
-    MetaInfo meta{};
     for_<N>([this, &in_next, &meta](auto const i) {
       using Now_in_t =
           std::tuple_element_t<0, arguments_of_t<std::tuple_element_t<
@@ -149,6 +184,21 @@ public:
       }
     });
     return std::any_cast<Out_t>(in_next);
+  }
+
+  Out_t operator()(std::decay_t<In_t> input) {
+    MetaInfo meta{};
+    return std::move(operator()(std::move(input), meta));
+  }
+
+  template <bool _ = true>
+  requires std::is_same_v<EmptyObject, In_t> Out_t operator()() {
+    return std::move(operator()(EmptyObject{}));
+  }
+
+  template <bool _ = true>
+  requires std::is_same_v<EmptyObject, In_t> Out_t operator()(MetaInfo &meta) {
+    return std::move(operator()(EmptyObject{}, meta));
   }
 
 private:

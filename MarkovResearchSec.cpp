@@ -1,5 +1,6 @@
 #include "BasicUnits/BinaryGenerator.hpp"
 #include "BasicUnits/MarkovBinaryChannel.hpp"
+#include "BasicUnits/RepetitionCoder.hpp"
 #include "metainfo.hxx"
 #include <array>
 #include <fstream>
@@ -19,9 +20,7 @@ int main(int /*argc*/, char const * /*argv*/[]) {
   double const p21 = 1.;
   double const p22 = 3.;
 
-  // std::vector<bool> input;
-  int const n = 1000;
-  // input.resize(n, false);
+  int const n = 100;
 
   Matrix<double> P{std::vector<std::vector<double>>{
       {p00, p01, p02}, {p10, p11, p12}, {p20, p21, p22}}};
@@ -34,14 +33,14 @@ int main(int /*argc*/, char const * /*argv*/[]) {
     std::cout << " ]\n";
   }
   double const prob = 0.3;
-  Model model{BinaryGenerator(prob, n),
-              MarkovBinaryChannel(3, 0, P, {pi0, pi1, pi2})};
-  // model >> MarkovBinaryChannel(3, 0, P, {pi0, pi1, pi2});
-  auto const iterations = 1000000;
+  int const seed = 12;
+  int const repetition_length = 5;
+  Model model{BinaryGenerator(prob, n, seed),
+              RepetitionEncoder{repetition_length},
+              MarkovBinaryChannel(3, 0, P, {pi0, pi1, pi2}, seed),
+              RepetitionDecoder{repetition_length}};
+  auto const iterations = 10000;
   std::array<size_t, n + 1> exact_errs{0};
-  // auto exact1 = 0;
-  // auto exact2 = 0;
-  // auto exact3 = 0;
   for (int i = 0; i < iterations; i++) {
     MetaInfo meta;
     auto res = model(meta);
@@ -54,24 +53,10 @@ int main(int /*argc*/, char const * /*argv*/[]) {
       }
       return std::move(result);
     };
-    // auto res = model(input);
     int errs = 0;
     for (auto &pair : zip(res, exact_out.data))
-      errs += static_cast<int>(pair.first ^ pair.second);
+      errs += static_cast<int>((bool)pair.first ^ (bool)pair.second);
     ++exact_errs[errs];
-    // switch (errs) {
-    // case 1:
-    //   exact1++;
-    //   break;
-    // case 2:
-    //   exact2++;
-    //   break;
-    // case 3:
-    //   exact3++;
-    //   break;
-    // default:
-    //   break;
-    // }
   }
   std::ofstream file{"output.csv"};
   std::cout << "total iterations: " << iterations << "\nP(m,n)  as  n=" << n
@@ -87,18 +72,5 @@ int main(int /*argc*/, char const * /*argv*/[]) {
   }
   std::cout << std::endl;
   file.close();
-  //    "\n P(1,46) = "
-  // << (double)exact1 / iterations
-  // << "\n P(2,46) = " << (double)exact2 / iterations
-  // << "\n P(3,46) = " << (double)exact3 / iterations << std::endl;
-  // for (auto &cur : exact1_2or3) {
-  //   for (auto item : cur)
-  //     std::cout << item << " ";
-  //   std::cout << std::endl;
-  // }
-  // for (auto item : res) {
-  //   std::cout << item << " ";
-  // }
-  // std::cout << std::endl;
   return 0;
 }

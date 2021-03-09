@@ -30,7 +30,7 @@ public:
     output.clear();
     run();
     info = std::move(meta);
-    return std::move(output);
+    return output;
   }
 };
 #endif // UNITPROTO_HPP

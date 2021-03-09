@@ -2,7 +2,6 @@
 #define MARKOVBINARYCHANNEL_HXX
 
 #include "Utility/Matrix.hxx"
-#include "Utility/UniformDoubleDistr.hxx"
 #include "unitproto.hpp"
 #include <cmath>
 #include <iomanip>
@@ -15,10 +14,10 @@ public:
   MarkovBinaryChannel() = default;
   MarkovBinaryChannel(size_t number_of_states, size_t initial_state,
                       Matrix<double> transition_probabilities,
-                      std::vector<double> error_probabilities)
+                      std::vector<double> error_probabilities, uint32_t seed = std::random_device{}())
       : nstates{number_of_states}, initstate{initial_state},
         P{std::move(transition_probabilities)},
-        Pis{std::move(error_probabilities)}, dist{0., 1.} {
+        Pis{std::move(error_probabilities)}, gen{seed}, dist{0., 1.} {
     P.normalize(P.Rows);
   }
 
@@ -26,10 +25,10 @@ public:
     auto state = initstate;
     output = std::move(input);
     for (auto bit : output) {
-      auto bitflip = dist();
+      auto bitflip = dist(gen);
       bit = bit ^ (bitflip < Pis[state]);
 
-      auto translation = dist();
+      auto translation = dist(gen);
       auto i = 0UL;
       for (; i < nstates - 1; i++)
         if (translation <= P[state][i])
@@ -41,7 +40,8 @@ public:
   size_t nstates = 0UL, initstate = 0UL;
   Matrix<double> P{};
   std::vector<double> Pis{};
-  UniformDoubleDistr dist{.0, .0};
+  std::mt19937 gen;
+  std::uniform_real_distribution<double> dist;
 };
 
 #endif // MARKOVBINARYCHANNEL_HXX

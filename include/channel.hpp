@@ -89,120 +89,88 @@ template <std::size_t N, typename F> constexpr void for_(F func) {
   for_(func, std::make_index_sequence<N>());
 }
 
-// template <typename ModelClass, typename... Functors> class EmptyParanToggler {};
-// requires (!std::is_same_v<
-//     EmptyObject,
-//     std::decay_t<std::tuple_element_t<
-//         0, arguments_of_t<std::tuple_element_t<
-//                0, std::tuple<
-//                       Functors...>>>>>> )
-
-// std::enable_if_t<std::is_same_v<EmptyObject,
-// std::decay_t<std::tuple_element_t<
-//       0, arguments_of_t<std::tuple_element_t<0, std::tuple<Functors...>>>>>>>
-
-// template <typename ModelClass, typename... Functors>
-// requires std::is_same_v<
-//     EmptyObject,
-//     std::decay_t<std::tuple_element_t<
-//         0, arguments_of_t<std::tuple_element_t<
-//                0, std::tuple<
-//                       Functors...>>>>>> class EmptyParanToggler<ModelClass,
-//                                                                 Functors...> {
-// public:
-//   static constexpr size_t N = sizeof...(Functors);
-//   using Out_t = std::decay_t<
-//       result_of_t<std::tuple_element_t<N - 1, std::tuple<Functors...>>>>;
-//   Out_t operator()() { return std::move(operator()(EmptyObject{})); }
-
-//   Out_t operator()(MetaInfo &meta) {
-//     return std::move(operator()(EmptyObject{}, meta));
-//   }
-// };
-
-// template <typename ModelClass>
-// class EmptyParanToggler<
-//     ModelClass,
-//     std::enable_if_t<!std::is_same_v<EmptyObject, ModelClass::In_t>>> {};
-
 template <typename... Functors>
 requires(
     // (std::is_default_constructible_v<Functors> && ...) &&
     (std::is_copy_constructible_v<Functors> &&...)) class Model
 
-    // : public EmptyParanToggler<Model<Functors...>, Functors...> 
-    {
+{
 public:
   static constexpr size_t N = sizeof...(Functors);
 
-  // using EmptyParanToggler<Model<Functors...>, Functors...>::operator();
-  using In_t = std::decay_t<std::tuple_element_t<
-      0, arguments_of_t<std::tuple_element_t<0, std::tuple<Functors...>>>>>;
-  using Out_t = std::decay_t<
-      result_of_t<std::tuple_element_t<N - 1, std::tuple<Functors...>>>>;
-  Model(Functors const&...fns) : m_units{fns...} {
+  using In_t = std::tuple_element_t<
+      0, arguments_of_t<std::tuple_element_t<0, std::tuple<Functors...>>>>;
+  using Out_t =
+      result_of_t<std::tuple_element_t<N - 1, std::tuple<Functors...>>>;
+  using Tuple_t = std::tuple<std::decay_t<Functors>...>;
+  Model(Functors const &...fns) : m_units{fns...} {
+    // before call checks
     for_<N - 1>([](auto const i) {
       using In_next =
           std::tuple_element_t<0, arguments_of_t<std::tuple_element_t<
                                       i.value + 1, std::tuple<Functors...>>>>;
       using Out_prev =
           result_of_t<std::tuple_element_t<i.value, std::tuple<Functors...>>>;
-      static_assert(
-          std::is_convertible_v<std::decay_t<Out_prev>, std::decay_t<In_next>>,
-          "Serial data input/output types must be the same.");
+      static_assert(std::is_convertible_v<Out_prev, In_next>,
+                    "Serial data input/output types must be the same.");
     });
   }
 
-  Out_t operator()(std::decay_t<In_t> input, MetaInfo &meta) {
-    std::any in_next = std::make_any<In_t>(std::move(input));
-    for_<N>([this, &in_next, &meta](auto const i) {
-      using Now_in_t =
-          std::tuple_element_t<0, arguments_of_t<std::tuple_element_t<
-                                      i.value, std::tuple<Functors...>>>>;
-      constexpr size_t arg_size = std::tuple_size_v<arguments_of_t<
-          std::tuple_element_t<i.value, std::tuple<Functors...>>>>;
-      if constexpr (arg_size == 2) {
-        using Second_arg =
-            std::tuple_element_t<1, arguments_of_t<std::tuple_element_t<
-                                        i.value, std::tuple<Functors...>>>>;
-        static_assert(std::is_same_v<Second_arg, MetaInfo &>,
-                      "Second arg must be MetaInfo reference.");
-        using Next_in_t = std::tuple_element_t<
-            0, arguments_of_t<std::tuple_element_t<
-                   i.value + 1, std::tuple<Functors..., void(Out_t)>>>>;
-        in_next = std::make_any<Next_in_t>(std::move(std::get<i.value>(m_units)(
-            std::any_cast<Now_in_t>(in_next), meta)));
-      } else if constexpr (arg_size == 1) {
-        using Next_in_t = std::tuple_element_t<
-            0, arguments_of_t<std::tuple_element_t<
-                   i.value + 1, std::tuple<Functors..., void(Out_t)>>>>;
-        in_next = std::make_any<Next_in_t>(std::move(
-            std::get<i.value>(m_units)(std::any_cast<Now_in_t>(in_next))));
-      } else {
-        static_assert(arg_size == 1 || arg_size == 2,
-                      "Invalid number of argumnets.");
+  template <typename In, size_t idx>
+  static decltype(auto) call_all(Tuple_t &functors, In &&in, MetaInfo &meta) {
+    if constexpr (idx == 0)
+      return std::forward<In>(in);
+    if constexpr (idx != 0) {
+      using CurrentFunc = std::tuple_element_t<idx - 1, Tuple_t>;
+      using CurrentArgs = arguments_of_t<CurrentFunc>;
+      if constexpr (std::tuple_size_v<CurrentArgs> == 0) {
+        return std::get<idx - 1>(functors)();
       }
-    });
-    return std::any_cast<Out_t>(in_next);
+      if constexpr (std::tuple_size_v<CurrentArgs> == 1) {
+        if constexpr (std::is_same_v<std::tuple_element_t<0, Tuple_t>,
+                                     MetaInfo &>)
+          return std::get<idx - 1>(functors)(meta);
+        return std::get<idx - 1>(functors)(
+            call_all<In, idx - 1>(functors, std::forward<In>(in), meta));
+      }
+      if constexpr (std::tuple_size_v<CurrentArgs> == 2) {
+        return std::get<idx - 1>(functors)(
+            Model<Functors...>::call_all<In, idx - 1>(
+                functors, std::forward<In>(in), meta),
+            meta);
+      }
+    }
   }
 
-  Out_t operator()(std::decay_t<In_t> input) {
-    MetaInfo meta{};
-    return std::move(operator()(std::move(input), meta));
+  Out_t operator()(In_t input, MetaInfo &meta) {
+    return Model<Functors...>::call_all<In_t, std::tuple_size_v<Tuple_t>>(
+        m_units, std::forward<In_t>(input), meta);
+  }
+
+  Out_t operator()(In_t input) {
+    MetaInfo meta;
+    return Model<Functors...>::call_all<In_t, std::tuple_size_v<Tuple_t>>(
+        m_units, std::forward<In_t>(input), meta);
   }
 
   template <bool _ = true>
-  requires std::is_same_v<EmptyObject, In_t> Out_t operator()() {
-    return std::move(operator()(EmptyObject{}));
+  requires std::is_same_v<EmptyObject &&, In_t> Out_t operator()() {
+    EmptyObject eo;
+    MetaInfo meta;
+    return Model<Functors...>::call_all<In_t, std::tuple_size_v<Tuple_t>>(
+        m_units, std::move(eo), meta);
   }
 
   template <bool _ = true>
-  requires std::is_same_v<EmptyObject, In_t> Out_t operator()(MetaInfo &meta) {
-    return std::move(operator()(EmptyObject{}, meta));
+  requires std::is_same_v<EmptyObject &&, In_t>
+      Out_t operator()(MetaInfo &meta) {
+    EmptyObject eo;
+    return Model<Functors...>::call_all<In_t, std::tuple_size_v<Tuple_t>>(
+        m_units, std::move(eo), meta);
   }
 
 private:
-  std::tuple<std::decay_t<Functors>...> m_units;
+  Tuple_t m_units;
 };
 
 #endif // CHANNEL_HPP

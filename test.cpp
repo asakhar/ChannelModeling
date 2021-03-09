@@ -17,7 +17,7 @@ int main(int /*argc*/, char const * /*argv*/[]) {
     //   meta.put(i++);
     //   return std::pair{std::vector<bool>{false, true, false, true}, meta};
     // };
-    auto without_meta = [i = 1](std::vector<bool> &data) mutable {
+    auto without_meta = [i = 1](std::vector<bool> &&data) mutable {
       // data[0] = false;
       auto meta = MetaInfo{};
       std::stringstream ss;
@@ -25,7 +25,7 @@ int main(int /*argc*/, char const * /*argv*/[]) {
       meta.put(ss.str().c_str());
       return std::move(data);
     };
-    auto passthrough = [](std::vector<bool> &data, MetaInfo &info) {
+    auto passthrough = [](std::vector<bool> &&data, MetaInfo &info) {
       info.put("some meta");
       std::cout << info.get<UnitProto<std::vector<bool>, std::vector<bool>>::UnitInfo>().info << "\n"
                 << info.get<char const *>() << std::endl;
@@ -44,14 +44,14 @@ int main(int /*argc*/, char const * /*argv*/[]) {
     std::cout << std::endl;
     // exit(0);
 
-    auto cast = [](std::vector<bool> &data, MetaInfo &/*info*/) {
+    auto cast = [](std::vector<bool> &&data, MetaInfo &/*info*/) {
       std::vector<double> tmp;
       auto const dummy = 0.1;
       for (auto item : data)
         tmp.emplace_back((double)item + dummy);
       return tmp;
     };
-    auto increment = [](std::vector<double> &data, MetaInfo &info) {
+    auto increment = [](std::vector<double> &&data, MetaInfo &info) {
       for (auto &item : data)
         item += 1.;
       std::cout << info.get<char const *>() << "\n"

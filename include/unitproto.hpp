@@ -24,7 +24,7 @@ public:
   struct UnitInfo {
     char const *info;
   };
-  Out_t operator()(In_t &data, MetaInfo &info) {
+  Out_t operator()(In_t &&data, MetaInfo &info) {
     input = std::move(data);
     meta = std::move(info);
     output.clear();

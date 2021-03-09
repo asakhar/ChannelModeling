@@ -1,2 +1,5 @@
 build
 .vscode
+.clangd
+.cache
+.ipynb_checkpoints

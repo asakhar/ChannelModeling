@@ -11,8 +11,8 @@ public:
   };
 
   BinaryGenerator() = default;
-  BinaryGenerator(double probability, size_t count)
-      : p{probability}, n{count}, gen{std::random_device{}()}, bern{p} {}
+  BinaryGenerator(double probability, size_t count, uint32_t seed = std::random_device{}())
+      : p{probability}, n{count}, gen{seed}, bern{p} {}
   void run() override {
     GeneratorOut out;
     output.resize(n);
@@ -25,7 +25,7 @@ public:
   }
   double p;
   size_t n;
-  std::mt19937 gen{std::random_device{}()};
+  std::mt19937 gen;
   std::bernoulli_distribution bern{0};
 };
 

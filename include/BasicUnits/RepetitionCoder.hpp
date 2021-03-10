@@ -3,11 +3,23 @@
 
 #include "unitproto.hpp"
 #include <vector>
-
+/**
+ * @brief Example of repetition encoder unit
+ *
+ */
 class RepetitionEncoder
     : public UnitProto<std::vector<bool>, std::vector<bool>> {
 public:
+  /**
+   * @brief Construct a new Repetition Encoder object
+   *
+   * @param repeats how many times to repeat symbols
+   */
   RepetitionEncoder(size_t repeats) : m_repeats{repeats} {}
+  /**
+   * @brief Processing method. Puts result to output field
+   *
+   */
   void run() override {
     output.reserve(input.size() * m_repeats);
     for (auto item : input)
@@ -16,11 +28,24 @@ public:
   }
   size_t m_repeats;
 };
-
+/**
+ * @brief Example of repetition decoder unit
+ *
+ */
 class RepetitionDecoder
     : public UnitProto<std::vector<bool>, std::vector<bool>> {
 public:
+  /**
+   * @brief Construct a new Repetition Decoder object
+   *
+   * @param repeats number of repeating symbols in input (should be the same as
+   * in encode in order to work properly)
+   */
   RepetitionDecoder(size_t repeats) : m_repeats{repeats} {}
+  /**
+   * @brief Processing method
+   *
+   */
   void run() override {
     output.reserve(input.size() / m_repeats);
     for (size_t i = 0; i < output.capacity(); i++) {

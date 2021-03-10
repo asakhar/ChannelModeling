@@ -1,0 +1,193 @@
+\hypertarget{structMatrix_1_1RowWrapper}{}\doxysection{Matrix$<$ Ty $>$\+::Row\+Wrapper Struct Reference}
+\label{structMatrix_1_1RowWrapper}\index{Matrix$<$ Ty $>$::RowWrapper@{Matrix$<$ Ty $>$::RowWrapper}}
+
+
+Helper struct for wrapping \mbox{\hyperlink{structMatrix}{Matrix}} rows.  
+
+
+
+
+{\ttfamily \#include $<$Matrix.\+hxx$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Ty \& \mbox{\hyperlink{structMatrix_1_1RowWrapper_a4c70710faf4b00cdd190c6ab3d09d776}{operator\mbox{[}$\,$\mbox{]}}} (size\+\_\+t y)
+\begin{DoxyCompactList}\small\item\em Get emelent reference by index in row. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structMatrix_1_1RowWrapper_a78c2b2c7d368a71a264a72d7caaab246}{Row\+Wrapper}} (\mbox{\hyperlink{structMatrix}{Matrix}}$<$ Ty $>$ \&mref, size\+\_\+t mrow)
+\begin{DoxyCompactList}\small\item\em Construct a new Row Wrapper object. \end{DoxyCompactList}\item 
+Ty $\ast$ \mbox{\hyperlink{structMatrix_1_1RowWrapper_a8ca212597d303d420e6fa3315188494e}{begin}} ()
+\begin{DoxyCompactList}\small\item\em begin iterator \end{DoxyCompactList}\item 
+Ty $\ast$ \mbox{\hyperlink{structMatrix_1_1RowWrapper_a98b47eec6ac876d72e9efe00bc4f52b0}{end}} ()
+\begin{DoxyCompactList}\small\item\em end iterator \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{structMatrix_1_1RowWrapper_ae5b7f5429f33a7aaa77c3dd06602f285}{operator!=}} (\mbox{\hyperlink{structMatrix_1_1RowWrapper}{Row\+Wrapper}} const \&other) const
+\begin{DoxyCompactList}\small\item\em Row comparison. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structMatrix_1_1RowWrapper}{Row\+Wrapper}} \& \mbox{\hyperlink{structMatrix_1_1RowWrapper_ade1f5edd699d710bb5029b1c0a7596e4}{operator++}} ()
+\begin{DoxyCompactList}\small\item\em move to the next row (iterator-\/like behaviour) \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structMatrix_1_1RowWrapper}{Row\+Wrapper}} \& \mbox{\hyperlink{structMatrix_1_1RowWrapper_aaf387aa9874afba8d8f754b58f33527b}{operator$\ast$}} ()
+\begin{DoxyCompactList}\small\item\em iterator-\/like behaviour for using in range-\/based for loops \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+size\+\_\+t \mbox{\hyperlink{structMatrix_1_1RowWrapper_a9afa96305c708456d6fcca47dbb4cb82}{row}}
+\begin{DoxyCompactList}\small\item\em Row index. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structMatrix}{Matrix}}$<$ Ty $>$ \& \mbox{\hyperlink{structMatrix_1_1RowWrapper_aa1b8a38a827aab8b829ed8cc06d1773e}{ref}}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{structMatrix}{Matrix}} reference. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename Ty$>$\newline
+struct Matrix$<$ Ty $>$\+::\+Row\+Wrapper}
+
+Helper struct for wrapping \mbox{\hyperlink{structMatrix}{Matrix}} rows. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structMatrix_1_1RowWrapper_a78c2b2c7d368a71a264a72d7caaab246}\label{structMatrix_1_1RowWrapper_a78c2b2c7d368a71a264a72d7caaab246}} 
+\index{Matrix$<$ Ty $>$::RowWrapper@{Matrix$<$ Ty $>$::RowWrapper}!RowWrapper@{RowWrapper}}
+\index{RowWrapper@{RowWrapper}!Matrix$<$ Ty $>$::RowWrapper@{Matrix$<$ Ty $>$::RowWrapper}}
+\doxysubsubsection{\texorpdfstring{RowWrapper()}{RowWrapper()}}
+{\footnotesize\ttfamily template$<$typename Ty $>$ \\
+\mbox{\hyperlink{structMatrix}{Matrix}}$<$ Ty $>$\+::Row\+Wrapper\+::\+Row\+Wrapper (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structMatrix}{Matrix}}$<$ Ty $>$ \&}]{mref,  }\item[{size\+\_\+t}]{mrow }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Construct a new Row Wrapper object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mref} & \\
+\hline
+{\em mrow} & \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structMatrix_1_1RowWrapper_a8ca212597d303d420e6fa3315188494e}\label{structMatrix_1_1RowWrapper_a8ca212597d303d420e6fa3315188494e}} 
+\index{Matrix$<$ Ty $>$::RowWrapper@{Matrix$<$ Ty $>$::RowWrapper}!begin@{begin}}
+\index{begin@{begin}!Matrix$<$ Ty $>$::RowWrapper@{Matrix$<$ Ty $>$::RowWrapper}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}}
+{\footnotesize\ttfamily template$<$typename Ty $>$ \\
+Ty$\ast$ \mbox{\hyperlink{structMatrix}{Matrix}}$<$ Ty $>$\+::Row\+Wrapper\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+begin iterator 
+
+\begin{DoxyReturn}{Returns}
+Ty$\ast$ 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structMatrix_1_1RowWrapper_a98b47eec6ac876d72e9efe00bc4f52b0}\label{structMatrix_1_1RowWrapper_a98b47eec6ac876d72e9efe00bc4f52b0}} 
+\index{Matrix$<$ Ty $>$::RowWrapper@{Matrix$<$ Ty $>$::RowWrapper}!end@{end}}
+\index{end@{end}!Matrix$<$ Ty $>$::RowWrapper@{Matrix$<$ Ty $>$::RowWrapper}}
+\doxysubsubsection{\texorpdfstring{end()}{end()}}
+{\footnotesize\ttfamily template$<$typename Ty $>$ \\
+Ty$\ast$ \mbox{\hyperlink{structMatrix}{Matrix}}$<$ Ty $>$\+::Row\+Wrapper\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+end iterator 
+
+\begin{DoxyReturn}{Returns}
+Ty$\ast$ 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structMatrix_1_1RowWrapper_ae5b7f5429f33a7aaa77c3dd06602f285}\label{structMatrix_1_1RowWrapper_ae5b7f5429f33a7aaa77c3dd06602f285}} 
+\index{Matrix$<$ Ty $>$::RowWrapper@{Matrix$<$ Ty $>$::RowWrapper}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!Matrix$<$ Ty $>$::RowWrapper@{Matrix$<$ Ty $>$::RowWrapper}}
+\doxysubsubsection{\texorpdfstring{operator"!=()}{operator!=()}}
+{\footnotesize\ttfamily template$<$typename Ty $>$ \\
+bool \mbox{\hyperlink{structMatrix}{Matrix}}$<$ Ty $>$\+::Row\+Wrapper\+::operator!= (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structMatrix_1_1RowWrapper}{Row\+Wrapper}} const \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Row comparison. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true 
+
+false 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structMatrix_1_1RowWrapper_aaf387aa9874afba8d8f754b58f33527b}\label{structMatrix_1_1RowWrapper_aaf387aa9874afba8d8f754b58f33527b}} 
+\index{Matrix$<$ Ty $>$::RowWrapper@{Matrix$<$ Ty $>$::RowWrapper}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!Matrix$<$ Ty $>$::RowWrapper@{Matrix$<$ Ty $>$::RowWrapper}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}}
+{\footnotesize\ttfamily template$<$typename Ty $>$ \\
+\mbox{\hyperlink{structMatrix_1_1RowWrapper}{Row\+Wrapper}}\& \mbox{\hyperlink{structMatrix}{Matrix}}$<$ Ty $>$\+::Row\+Wrapper\+::operator$\ast$ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+iterator-\/like behaviour for using in range-\/based for loops 
+
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{structMatrix_1_1RowWrapper}{Row\+Wrapper}}\& 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structMatrix_1_1RowWrapper_ade1f5edd699d710bb5029b1c0a7596e4}\label{structMatrix_1_1RowWrapper_ade1f5edd699d710bb5029b1c0a7596e4}} 
+\index{Matrix$<$ Ty $>$::RowWrapper@{Matrix$<$ Ty $>$::RowWrapper}!operator++@{operator++}}
+\index{operator++@{operator++}!Matrix$<$ Ty $>$::RowWrapper@{Matrix$<$ Ty $>$::RowWrapper}}
+\doxysubsubsection{\texorpdfstring{operator++()}{operator++()}}
+{\footnotesize\ttfamily template$<$typename Ty $>$ \\
+\mbox{\hyperlink{structMatrix_1_1RowWrapper}{Row\+Wrapper}}\& \mbox{\hyperlink{structMatrix}{Matrix}}$<$ Ty $>$\+::Row\+Wrapper\+::operator++ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+move to the next row (iterator-\/like behaviour) 
+
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{structMatrix_1_1RowWrapper}{Row\+Wrapper}}\& 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structMatrix_1_1RowWrapper_a4c70710faf4b00cdd190c6ab3d09d776}\label{structMatrix_1_1RowWrapper_a4c70710faf4b00cdd190c6ab3d09d776}} 
+\index{Matrix$<$ Ty $>$::RowWrapper@{Matrix$<$ Ty $>$::RowWrapper}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!Matrix$<$ Ty $>$::RowWrapper@{Matrix$<$ Ty $>$::RowWrapper}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}}
+{\footnotesize\ttfamily template$<$typename Ty $>$ \\
+Ty\& \mbox{\hyperlink{structMatrix}{Matrix}}$<$ Ty $>$\+::Row\+Wrapper\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{y }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get emelent reference by index in row. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em y} & index \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Ty\& 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structMatrix_1_1RowWrapper_aa1b8a38a827aab8b829ed8cc06d1773e}\label{structMatrix_1_1RowWrapper_aa1b8a38a827aab8b829ed8cc06d1773e}} 
+\index{Matrix$<$ Ty $>$::RowWrapper@{Matrix$<$ Ty $>$::RowWrapper}!ref@{ref}}
+\index{ref@{ref}!Matrix$<$ Ty $>$::RowWrapper@{Matrix$<$ Ty $>$::RowWrapper}}
+\doxysubsubsection{\texorpdfstring{ref}{ref}}
+{\footnotesize\ttfamily template$<$typename Ty $>$ \\
+\mbox{\hyperlink{structMatrix}{Matrix}}$<$Ty$>$\& \mbox{\hyperlink{structMatrix}{Matrix}}$<$ Ty $>$\+::Row\+Wrapper\+::ref}
+
+
+
+\mbox{\hyperlink{structMatrix}{Matrix}} reference. 
+
+\mbox{\Hypertarget{structMatrix_1_1RowWrapper_a9afa96305c708456d6fcca47dbb4cb82}\label{structMatrix_1_1RowWrapper_a9afa96305c708456d6fcca47dbb4cb82}} 
+\index{Matrix$<$ Ty $>$::RowWrapper@{Matrix$<$ Ty $>$::RowWrapper}!row@{row}}
+\index{row@{row}!Matrix$<$ Ty $>$::RowWrapper@{Matrix$<$ Ty $>$::RowWrapper}}
+\doxysubsubsection{\texorpdfstring{row}{row}}
+{\footnotesize\ttfamily template$<$typename Ty $>$ \\
+size\+\_\+t \mbox{\hyperlink{structMatrix}{Matrix}}$<$ Ty $>$\+::Row\+Wrapper\+::row}
+
+
+
+Row index. 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Utility/Matrix.\+hxx\end{DoxyCompactItemize}

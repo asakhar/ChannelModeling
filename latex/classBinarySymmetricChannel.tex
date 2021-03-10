@@ -1,0 +1,86 @@
+\hypertarget{classBinarySymmetricChannel}{}\doxysection{Binary\+Symmetric\+Channel Class Reference}
+\label{classBinarySymmetricChannel}\index{BinarySymmetricChannel@{BinarySymmetricChannel}}
+
+
+Example of binary symmetric channel unit. Randomly injects errors in input data within the given chance.  
+
+
+
+
+{\ttfamily \#include $<$Binary\+Symmetric\+Channel.\+hpp$>$}
+
+
+
+Inheritance diagram for Binary\+Symmetric\+Channel\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=221pt]{classBinarySymmetricChannel__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Binary\+Symmetric\+Channel\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=221pt]{classBinarySymmetricChannel__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classBinarySymmetricChannel_a3a7f05ccaf64439cad371875132c21aa}{Binary\+Symmetric\+Channel}} (double bitflip\+\_\+chance, uint32\+\_\+t seed=std\+::random\+\_\+device\{\}())
+\begin{DoxyCompactList}\small\item\em Construct a new Binary Symmetric Channel object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classBinarySymmetricChannel_a753152dbb13bfaf8a4b87516020de5ab}{run}} () override
+\begin{DoxyCompactList}\small\item\em Processing method. Exaple shows that You actually are avaliable to move from input data to output in order to save resources. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Example of binary symmetric channel unit. Randomly injects errors in input data within the given chance. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classBinarySymmetricChannel_a3a7f05ccaf64439cad371875132c21aa}\label{classBinarySymmetricChannel_a3a7f05ccaf64439cad371875132c21aa}} 
+\index{BinarySymmetricChannel@{BinarySymmetricChannel}!BinarySymmetricChannel@{BinarySymmetricChannel}}
+\index{BinarySymmetricChannel@{BinarySymmetricChannel}!BinarySymmetricChannel@{BinarySymmetricChannel}}
+\doxysubsubsection{\texorpdfstring{BinarySymmetricChannel()}{BinarySymmetricChannel()}}
+{\footnotesize\ttfamily Binary\+Symmetric\+Channel\+::\+Binary\+Symmetric\+Channel (\begin{DoxyParamCaption}\item[{double}]{bitflip\+\_\+chance,  }\item[{uint32\+\_\+t}]{seed = {\ttfamily std\+:\+:random\+\_\+device\{\}()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Construct a new Binary Symmetric Channel object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em bitflip\+\_\+chance} & Chance of injecting an error per one data bit \\
+\hline
+{\em seed} & Seed for pseudo-\/random number generator \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classBinarySymmetricChannel_a753152dbb13bfaf8a4b87516020de5ab}\label{classBinarySymmetricChannel_a753152dbb13bfaf8a4b87516020de5ab}} 
+\index{BinarySymmetricChannel@{BinarySymmetricChannel}!run@{run}}
+\index{run@{run}!BinarySymmetricChannel@{BinarySymmetricChannel}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily void Binary\+Symmetric\+Channel\+::run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Processing method. Exaple shows that You actually are avaliable to move from input data to output in order to save resources. 
+
+
+
+Reimplemented from \mbox{\hyperlink{structUnitProto_a1c7aa9c3c3ce37fee16a68321aa569a4}{Unit\+Proto$<$ std\+::vector$<$ bool $>$, std\+::vector$<$ bool $>$ $>$}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Basic\+Units/Binary\+Symmetric\+Channel.\+hpp\end{DoxyCompactItemize}

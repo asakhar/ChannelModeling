@@ -7,23 +7,44 @@
 #include <random>
 #include <type_traits>
 #include <vector>
-
-template <typename In_t, typename Out_t> class UnitProto {
+/**
+ * @brief Prototype for designing Units.
+ * You only have to inherit from this class and override *void run()* method
+ * Fields *input*, *output* and *meta* are there to be used as data transfer
+ * interfaces
+ *
+ * @tparam In_t input data type
+ * @tparam Out_t output data type
+ */
+template <typename In_t, typename Out_t> struct UnitProto {
 protected:
+  /**
+   * @brief Input data to manage from *void run()*
+   *
+   */
   In_t input;
+  /**
+   * @brief Output data to be stored from *void run()*
+   *
+   */
   Out_t output;
+  /**
+   * @brief Additional user information bus
+   *
+   */
   MetaInfo meta;
-  virtual void run() {
-    meta.put(UnitInfo{"Unit prototype has been used."});
-    if constexpr(std::is_constructible_v<Out_t, int, int, int, int>)
-      output = Out_t{1, 0, 1, 0};
-  }
+  /**
+   * @brief Processing method to be overloaded
+   *
+   */
+  virtual void run() { meta.put(UnitInfo{"Unit prototype has been used."}); }
 
 public:
   virtual ~UnitProto() = default;
   struct UnitInfo {
     char const *info;
   };
+
   Out_t operator()(In_t &&data, MetaInfo &info) {
     input = std::move(data);
     meta = std::move(info);

@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$structUnitProto.html" title=" " alt="" coords="5,67,172,123"/>
+<area shape="rect" id="node2" href="$classBinarySymmetricChannel.html" title="Example of binary symmetric channel unit. Randomly injects errors in input data within the given chan..." alt="" coords="220,5,408,32"/>
+<area shape="rect" id="node3" href="$classMarkovBinaryChannel.html" title="Example of Markov Chain Channel unit." alt="" coords="231,56,397,83"/>
+<area shape="rect" id="node4" href="$classRepetitionDecoder.html" title="Example of repetition decoder unit." alt="" coords="243,107,385,133"/>
+<area shape="rect" id="node5" href="$classRepetitionEncoder.html" title="Example of repetition encoder unit." alt="" coords="243,157,385,184"/>
+</map>

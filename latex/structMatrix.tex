@@ -1,0 +1,188 @@
+\hypertarget{structMatrix}{}\doxysection{Matrix$<$ Ty $>$ Struct Template Reference}
+\label{structMatrix}\index{Matrix$<$ Ty $>$@{Matrix$<$ Ty $>$}}
+
+
+Helper \mbox{\hyperlink{structMatrix}{Matrix}} struct for Markov Chain generator.  
+
+
+
+
+{\ttfamily \#include $<$Matrix.\+hxx$>$}
+
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structMatrix_1_1RowWrapper}{Row\+Wrapper}}
+\begin{DoxyCompactList}\small\item\em Helper struct for wrapping \mbox{\hyperlink{structMatrix}{Matrix}} rows. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{structMatrix_a5cfd3b05bbda0f84f5d403fe672b76af}{Dims}} \+: int \{ {\bfseries Rows} = 1, 
+{\bfseries Columns} = 2
+ \}
+\begin{DoxyCompactList}\small\item\em helper enum \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structMatrix_a433a8c1eea2b2279b7bfeab6d338a368}{Matrix}} (std\+::vector$<$ std\+::vector$<$ Ty $>$$>$ const \&rows)
+\begin{DoxyCompactList}\small\item\em Construct a new \mbox{\hyperlink{structMatrix}{Matrix}} object from 2-\/dim vector. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structMatrix_1_1RowWrapper}{Row\+Wrapper}} \mbox{\hyperlink{structMatrix_a452e29b0ec59a6c4fc84bd5abc4a564a}{operator\mbox{[}$\,$\mbox{]}}} (size\+\_\+t x)
+\begin{DoxyCompactList}\small\item\em Get row by index. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structMatrix_1_1RowWrapper}{Row\+Wrapper}} \mbox{\hyperlink{structMatrix_a68a15852fff006f544cd11cd5267271c}{begin}} ()
+\begin{DoxyCompactList}\small\item\em begin iterator \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structMatrix_1_1RowWrapper}{Row\+Wrapper}} \mbox{\hyperlink{structMatrix_a8d2f38febeb2f2af1d31f623bf82f133}{end}} ()
+\begin{DoxyCompactList}\small\item\em end iterator \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{structMatrix_ae25520578420d43368d6f821cd1be70b}{normalize}} (\mbox{\hyperlink{structMatrix_a5cfd3b05bbda0f84f5d403fe672b76af}{Dims}} dims=(\mbox{\hyperlink{structMatrix_a5cfd3b05bbda0f84f5d403fe672b76af}{Dims}})(Rows$\vert$Columns))
+\begin{DoxyCompactList}\small\item\em change matrix such that the following dimensions\textquotesingle{} sums become equal to 1 \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+size\+\_\+t \mbox{\hyperlink{structMatrix_a30f8d23d476cd5742d0143cf49332c62}{dimr}}
+\begin{DoxyCompactList}\small\item\em Dimentions. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structMatrix_ae4002c395873c0046b7bbba545cd5499}\label{structMatrix_ae4002c395873c0046b7bbba545cd5499}} 
+size\+\_\+t {\bfseries dimc}
+\item 
+std\+::vector$<$ double $>$ \mbox{\hyperlink{structMatrix_a8e3ddf9f3c3812d4e2a0e8a4cff8b43b}{data}}
+\begin{DoxyCompactList}\small\item\em Containing data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename Ty$>$\newline
+struct Matrix$<$ Ty $>$}
+
+Helper \mbox{\hyperlink{structMatrix}{Matrix}} struct for Markov Chain generator. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Ty} & \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{structMatrix_a5cfd3b05bbda0f84f5d403fe672b76af}\label{structMatrix_a5cfd3b05bbda0f84f5d403fe672b76af}} 
+\index{Matrix$<$ Ty $>$@{Matrix$<$ Ty $>$}!Dims@{Dims}}
+\index{Dims@{Dims}!Matrix$<$ Ty $>$@{Matrix$<$ Ty $>$}}
+\doxysubsubsection{\texorpdfstring{Dims}{Dims}}
+{\footnotesize\ttfamily template$<$typename Ty $>$ \\
+enum \mbox{\hyperlink{structMatrix_a5cfd3b05bbda0f84f5d403fe672b76af}{Matrix\+::\+Dims}} \+: int}
+
+
+
+helper enum 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structMatrix_a433a8c1eea2b2279b7bfeab6d338a368}\label{structMatrix_a433a8c1eea2b2279b7bfeab6d338a368}} 
+\index{Matrix$<$ Ty $>$@{Matrix$<$ Ty $>$}!Matrix@{Matrix}}
+\index{Matrix@{Matrix}!Matrix$<$ Ty $>$@{Matrix$<$ Ty $>$}}
+\doxysubsubsection{\texorpdfstring{Matrix()}{Matrix()}}
+{\footnotesize\ttfamily template$<$typename Ty $>$ \\
+\mbox{\hyperlink{structMatrix}{Matrix}}$<$ Ty $>$\+::\mbox{\hyperlink{structMatrix}{Matrix}} (\begin{DoxyParamCaption}\item[{std\+::vector$<$ std\+::vector$<$ Ty $>$$>$ const \&}]{rows }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Construct a new \mbox{\hyperlink{structMatrix}{Matrix}} object from 2-\/dim vector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em rows} & \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structMatrix_a68a15852fff006f544cd11cd5267271c}\label{structMatrix_a68a15852fff006f544cd11cd5267271c}} 
+\index{Matrix$<$ Ty $>$@{Matrix$<$ Ty $>$}!begin@{begin}}
+\index{begin@{begin}!Matrix$<$ Ty $>$@{Matrix$<$ Ty $>$}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}}
+{\footnotesize\ttfamily template$<$typename Ty $>$ \\
+\mbox{\hyperlink{structMatrix_1_1RowWrapper}{Row\+Wrapper}} \mbox{\hyperlink{structMatrix}{Matrix}}$<$ Ty $>$\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+begin iterator 
+
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{structMatrix_1_1RowWrapper}{Row\+Wrapper}} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structMatrix_a8d2f38febeb2f2af1d31f623bf82f133}\label{structMatrix_a8d2f38febeb2f2af1d31f623bf82f133}} 
+\index{Matrix$<$ Ty $>$@{Matrix$<$ Ty $>$}!end@{end}}
+\index{end@{end}!Matrix$<$ Ty $>$@{Matrix$<$ Ty $>$}}
+\doxysubsubsection{\texorpdfstring{end()}{end()}}
+{\footnotesize\ttfamily template$<$typename Ty $>$ \\
+\mbox{\hyperlink{structMatrix_1_1RowWrapper}{Row\+Wrapper}} \mbox{\hyperlink{structMatrix}{Matrix}}$<$ Ty $>$\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+end iterator 
+
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{structMatrix_1_1RowWrapper}{Row\+Wrapper}} 
+\end{DoxyReturn}
+\mbox{\Hypertarget{structMatrix_ae25520578420d43368d6f821cd1be70b}\label{structMatrix_ae25520578420d43368d6f821cd1be70b}} 
+\index{Matrix$<$ Ty $>$@{Matrix$<$ Ty $>$}!normalize@{normalize}}
+\index{normalize@{normalize}!Matrix$<$ Ty $>$@{Matrix$<$ Ty $>$}}
+\doxysubsubsection{\texorpdfstring{normalize()}{normalize()}}
+{\footnotesize\ttfamily template$<$typename Ty $>$ \\
+void \mbox{\hyperlink{structMatrix}{Matrix}}$<$ Ty $>$\+::normalize (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structMatrix_a5cfd3b05bbda0f84f5d403fe672b76af}{Dims}}}]{dims = {\ttfamily (\mbox{\hyperlink{structMatrix_a5cfd3b05bbda0f84f5d403fe672b76af}{Dims}})(Rows~$\vert$~Columns)} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+change matrix such that the following dimensions\textquotesingle{} sums become equal to 1 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dims} & \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{structMatrix_a452e29b0ec59a6c4fc84bd5abc4a564a}\label{structMatrix_a452e29b0ec59a6c4fc84bd5abc4a564a}} 
+\index{Matrix$<$ Ty $>$@{Matrix$<$ Ty $>$}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!Matrix$<$ Ty $>$@{Matrix$<$ Ty $>$}}
+\doxysubsubsection{\texorpdfstring{operator[]()}{operator[]()}}
+{\footnotesize\ttfamily template$<$typename Ty $>$ \\
+\mbox{\hyperlink{structMatrix_1_1RowWrapper}{Row\+Wrapper}} \mbox{\hyperlink{structMatrix}{Matrix}}$<$ Ty $>$\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Get row by index. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & number of row \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\mbox{\hyperlink{structMatrix_1_1RowWrapper}{Row\+Wrapper}} 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structMatrix_a8e3ddf9f3c3812d4e2a0e8a4cff8b43b}\label{structMatrix_a8e3ddf9f3c3812d4e2a0e8a4cff8b43b}} 
+\index{Matrix$<$ Ty $>$@{Matrix$<$ Ty $>$}!data@{data}}
+\index{data@{data}!Matrix$<$ Ty $>$@{Matrix$<$ Ty $>$}}
+\doxysubsubsection{\texorpdfstring{data}{data}}
+{\footnotesize\ttfamily template$<$typename Ty $>$ \\
+std\+::vector$<$double$>$ \mbox{\hyperlink{structMatrix}{Matrix}}$<$ Ty $>$\+::data}
+
+
+
+Containing data. 
+
+\mbox{\Hypertarget{structMatrix_a30f8d23d476cd5742d0143cf49332c62}\label{structMatrix_a30f8d23d476cd5742d0143cf49332c62}} 
+\index{Matrix$<$ Ty $>$@{Matrix$<$ Ty $>$}!dimr@{dimr}}
+\index{dimr@{dimr}!Matrix$<$ Ty $>$@{Matrix$<$ Ty $>$}}
+\doxysubsubsection{\texorpdfstring{dimr}{dimr}}
+{\footnotesize\ttfamily template$<$typename Ty $>$ \\
+size\+\_\+t \mbox{\hyperlink{structMatrix}{Matrix}}$<$ Ty $>$\+::dimr}
+
+
+
+Dimentions. 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Utility/Matrix.\+hxx\end{DoxyCompactItemize}

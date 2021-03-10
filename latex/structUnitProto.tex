@@ -1,0 +1,119 @@
+\hypertarget{structUnitProto}{}\doxysection{Unit\+Proto$<$ In\+\_\+t, Out\+\_\+t $>$ Struct Template Reference}
+\label{structUnitProto}\index{UnitProto$<$ In\_t, Out\_t $>$@{UnitProto$<$ In\_t, Out\_t $>$}}
+
+
+Prototype for designing Units. You only have to inherit from this class and override {\itshape void \mbox{\hyperlink{structUnitProto_a1c7aa9c3c3ce37fee16a68321aa569a4}{run()}}} method Fields {\itshape input}, {\itshape output} and {\itshape meta} are there to be used as data transfer interfaces.  
+
+
+
+
+{\ttfamily \#include $<$unitproto.\+hpp$>$}
+
+
+
+Collaboration diagram for Unit\+Proto$<$ In\+\_\+t, Out\+\_\+t $>$\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=215pt]{structUnitProto__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structUnitProto_1_1UnitInfo}{Unit\+Info}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structUnitProto_ac28d445cac6e3736fcb4c2a3c0b3c4f3}\label{structUnitProto_ac28d445cac6e3736fcb4c2a3c0b3c4f3}} 
+Out\+\_\+t {\bfseries operator()} (In\+\_\+t \&\&data, \mbox{\hyperlink{classMetaInfo}{Meta\+Info}} \&info)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \mbox{\hyperlink{structUnitProto_a1c7aa9c3c3ce37fee16a68321aa569a4}{run}} ()
+\begin{DoxyCompactList}\small\item\em Processing method to be overloaded. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+In\+\_\+t \mbox{\hyperlink{structUnitProto_aa5974782363e48b3d31989249ff33429}{input}}
+\begin{DoxyCompactList}\small\item\em Input data to manage from {\itshape void \mbox{\hyperlink{structUnitProto_a1c7aa9c3c3ce37fee16a68321aa569a4}{run()}}} \end{DoxyCompactList}\item 
+Out\+\_\+t \mbox{\hyperlink{structUnitProto_a54e0febb7d6e02476d1c747590057fcf}{output}}
+\begin{DoxyCompactList}\small\item\em Output data to be stored from {\itshape void \mbox{\hyperlink{structUnitProto_a1c7aa9c3c3ce37fee16a68321aa569a4}{run()}}} \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classMetaInfo}{Meta\+Info}} \mbox{\hyperlink{structUnitProto_aca262e56369d27063c48f271aa180829}{meta}}
+\begin{DoxyCompactList}\small\item\em Additional user information bus. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename In\+\_\+t, typename Out\+\_\+t$>$\newline
+struct Unit\+Proto$<$ In\+\_\+t, Out\+\_\+t $>$}
+
+Prototype for designing Units. You only have to inherit from this class and override {\itshape void \mbox{\hyperlink{structUnitProto_a1c7aa9c3c3ce37fee16a68321aa569a4}{run()}}} method Fields {\itshape input}, {\itshape output} and {\itshape meta} are there to be used as data transfer interfaces. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em In\+\_\+t} & input data type \\
+\hline
+{\em Out\+\_\+t} & output data type \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structUnitProto_a1c7aa9c3c3ce37fee16a68321aa569a4}\label{structUnitProto_a1c7aa9c3c3ce37fee16a68321aa569a4}} 
+\index{UnitProto$<$ In\_t, Out\_t $>$@{UnitProto$<$ In\_t, Out\_t $>$}!run@{run}}
+\index{run@{run}!UnitProto$<$ In\_t, Out\_t $>$@{UnitProto$<$ In\_t, Out\_t $>$}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily template$<$typename In\+\_\+t , typename Out\+\_\+t $>$ \\
+virtual void \mbox{\hyperlink{structUnitProto}{Unit\+Proto}}$<$ In\+\_\+t, Out\+\_\+t $>$\+::run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Processing method to be overloaded. 
+
+
+
+Reimplemented in \mbox{\hyperlink{classRepetitionDecoder_aa3cb64ee8d4ab0dd35fb2ddf9cbb0365}{Repetition\+Decoder}}, \mbox{\hyperlink{classMarkovBinaryChannel_a7f05d3af586a59483f7e76fb55fe09d7}{Markov\+Binary\+Channel}}, \mbox{\hyperlink{classBinaryGenerator_aebe4c4b44d8ff9a25fecde1eab2ba031}{Binary\+Generator}}, \mbox{\hyperlink{classBinarySymmetricChannel_a753152dbb13bfaf8a4b87516020de5ab}{Binary\+Symmetric\+Channel}}, and \mbox{\hyperlink{classRepetitionEncoder_a6b56524d5eba5fad67e9ebdfb9c03a1f}{Repetition\+Encoder}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structUnitProto_aa5974782363e48b3d31989249ff33429}\label{structUnitProto_aa5974782363e48b3d31989249ff33429}} 
+\index{UnitProto$<$ In\_t, Out\_t $>$@{UnitProto$<$ In\_t, Out\_t $>$}!input@{input}}
+\index{input@{input}!UnitProto$<$ In\_t, Out\_t $>$@{UnitProto$<$ In\_t, Out\_t $>$}}
+\doxysubsubsection{\texorpdfstring{input}{input}}
+{\footnotesize\ttfamily template$<$typename In\+\_\+t , typename Out\+\_\+t $>$ \\
+In\+\_\+t \mbox{\hyperlink{structUnitProto}{Unit\+Proto}}$<$ In\+\_\+t, Out\+\_\+t $>$\+::input\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Input data to manage from {\itshape void \mbox{\hyperlink{structUnitProto_a1c7aa9c3c3ce37fee16a68321aa569a4}{run()}}} 
+
+\mbox{\Hypertarget{structUnitProto_aca262e56369d27063c48f271aa180829}\label{structUnitProto_aca262e56369d27063c48f271aa180829}} 
+\index{UnitProto$<$ In\_t, Out\_t $>$@{UnitProto$<$ In\_t, Out\_t $>$}!meta@{meta}}
+\index{meta@{meta}!UnitProto$<$ In\_t, Out\_t $>$@{UnitProto$<$ In\_t, Out\_t $>$}}
+\doxysubsubsection{\texorpdfstring{meta}{meta}}
+{\footnotesize\ttfamily template$<$typename In\+\_\+t , typename Out\+\_\+t $>$ \\
+\mbox{\hyperlink{classMetaInfo}{Meta\+Info}} \mbox{\hyperlink{structUnitProto}{Unit\+Proto}}$<$ In\+\_\+t, Out\+\_\+t $>$\+::meta\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Additional user information bus. 
+
+\mbox{\Hypertarget{structUnitProto_a54e0febb7d6e02476d1c747590057fcf}\label{structUnitProto_a54e0febb7d6e02476d1c747590057fcf}} 
+\index{UnitProto$<$ In\_t, Out\_t $>$@{UnitProto$<$ In\_t, Out\_t $>$}!output@{output}}
+\index{output@{output}!UnitProto$<$ In\_t, Out\_t $>$@{UnitProto$<$ In\_t, Out\_t $>$}}
+\doxysubsubsection{\texorpdfstring{output}{output}}
+{\footnotesize\ttfamily template$<$typename In\+\_\+t , typename Out\+\_\+t $>$ \\
+Out\+\_\+t \mbox{\hyperlink{structUnitProto}{Unit\+Proto}}$<$ In\+\_\+t, Out\+\_\+t $>$\+::output\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Output data to be stored from {\itshape void \mbox{\hyperlink{structUnitProto_a1c7aa9c3c3ce37fee16a68321aa569a4}{run()}}} 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/unitproto.\+hpp\end{DoxyCompactItemize}

@@ -1,0 +1,113 @@
+\hypertarget{classMarkovBinaryChannel}{}\doxysection{Markov\+Binary\+Channel Class Reference}
+\label{classMarkovBinaryChannel}\index{MarkovBinaryChannel@{MarkovBinaryChannel}}
+
+
+Example of Markov Chain Channel unit.  
+
+
+
+
+{\ttfamily \#include $<$Markov\+Binary\+Channel.\+hpp$>$}
+
+
+
+Inheritance diagram for Markov\+Binary\+Channel\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=205pt]{classMarkovBinaryChannel__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Markov\+Binary\+Channel\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=328pt]{classMarkovBinaryChannel__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classMarkovBinaryChannel_a85808611e11b750647ed5a40b8049d8a}{Markov\+Binary\+Channel}} (size\+\_\+t number\+\_\+of\+\_\+states, size\+\_\+t initial\+\_\+state, \mbox{\hyperlink{structMatrix}{Matrix}}$<$ double $>$ transition\+\_\+probabilities, std\+::vector$<$ double $>$ error\+\_\+probabilities, uint32\+\_\+t seed=std\+::random\+\_\+device\{\}())
+\begin{DoxyCompactList}\small\item\em Construct a new Markov Binary Channel object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classMarkovBinaryChannel_a7f05d3af586a59483f7e76fb55fe09d7}{run}} () override
+\begin{DoxyCompactList}\small\item\em Processing method. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classMarkovBinaryChannel_a9aa07d2f2a076437104df5d220504f9c}\label{classMarkovBinaryChannel_a9aa07d2f2a076437104df5d220504f9c}} 
+size\+\_\+t {\bfseries nstates} = 0\+UL
+\item 
+\mbox{\Hypertarget{classMarkovBinaryChannel_a818595705bbe0c877a50966c1e082c0c}\label{classMarkovBinaryChannel_a818595705bbe0c877a50966c1e082c0c}} 
+size\+\_\+t {\bfseries initstate} = 0\+UL
+\item 
+\mbox{\Hypertarget{classMarkovBinaryChannel_a19c11a5fe2f84bef24c7083be069452b}\label{classMarkovBinaryChannel_a19c11a5fe2f84bef24c7083be069452b}} 
+\mbox{\hyperlink{structMatrix}{Matrix}}$<$ double $>$ {\bfseries P} \{\}
+\item 
+\mbox{\Hypertarget{classMarkovBinaryChannel_a9fd1eb7dd27f6688cfa0fecdb580c4c6}\label{classMarkovBinaryChannel_a9fd1eb7dd27f6688cfa0fecdb580c4c6}} 
+std\+::vector$<$ double $>$ {\bfseries Pis} \{\}
+\item 
+\mbox{\Hypertarget{classMarkovBinaryChannel_a9267b767e494146679b7274e995603b1}\label{classMarkovBinaryChannel_a9267b767e494146679b7274e995603b1}} 
+std\+::mt19937 {\bfseries gen}
+\item 
+\mbox{\Hypertarget{classMarkovBinaryChannel_a3c7f1dcb7727dabb71c65991df20344a}\label{classMarkovBinaryChannel_a3c7f1dcb7727dabb71c65991df20344a}} 
+std\+::uniform\+\_\+real\+\_\+distribution$<$ double $>$ {\bfseries dist}
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Example of Markov Chain Channel unit. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classMarkovBinaryChannel_a85808611e11b750647ed5a40b8049d8a}\label{classMarkovBinaryChannel_a85808611e11b750647ed5a40b8049d8a}} 
+\index{MarkovBinaryChannel@{MarkovBinaryChannel}!MarkovBinaryChannel@{MarkovBinaryChannel}}
+\index{MarkovBinaryChannel@{MarkovBinaryChannel}!MarkovBinaryChannel@{MarkovBinaryChannel}}
+\doxysubsubsection{\texorpdfstring{MarkovBinaryChannel()}{MarkovBinaryChannel()}}
+{\footnotesize\ttfamily Markov\+Binary\+Channel\+::\+Markov\+Binary\+Channel (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{number\+\_\+of\+\_\+states,  }\item[{size\+\_\+t}]{initial\+\_\+state,  }\item[{\mbox{\hyperlink{structMatrix}{Matrix}}$<$ double $>$}]{transition\+\_\+probabilities,  }\item[{std\+::vector$<$ double $>$}]{error\+\_\+probabilities,  }\item[{uint32\+\_\+t}]{seed = {\ttfamily std\+:\+:random\+\_\+device\{\}()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Construct a new Markov Binary Channel object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em number\+\_\+of\+\_\+states} & \\
+\hline
+{\em initial\+\_\+state} & \\
+\hline
+{\em transition\+\_\+probabilities} & \\
+\hline
+{\em error\+\_\+probabilities} & \\
+\hline
+{\em seed} & \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classMarkovBinaryChannel_a7f05d3af586a59483f7e76fb55fe09d7}\label{classMarkovBinaryChannel_a7f05d3af586a59483f7e76fb55fe09d7}} 
+\index{MarkovBinaryChannel@{MarkovBinaryChannel}!run@{run}}
+\index{run@{run}!MarkovBinaryChannel@{MarkovBinaryChannel}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily void Markov\+Binary\+Channel\+::run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Processing method. 
+
+
+
+Reimplemented from \mbox{\hyperlink{structUnitProto_a1c7aa9c3c3ce37fee16a68321aa569a4}{Unit\+Proto$<$ std\+::vector$<$ bool $>$, std\+::vector$<$ bool $>$ $>$}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Basic\+Units/Markov\+Binary\+Channel.\+hpp\end{DoxyCompactItemize}

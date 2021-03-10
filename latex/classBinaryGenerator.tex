@@ -1,0 +1,108 @@
+\hypertarget{classBinaryGenerator}{}\doxysection{Binary\+Generator Class Reference}
+\label{classBinaryGenerator}\index{BinaryGenerator@{BinaryGenerator}}
+
+
+Example of data generator without input.  
+
+
+
+
+{\ttfamily \#include $<$Binary\+Generator.\+hpp$>$}
+
+
+
+Inheritance diagram for Binary\+Generator\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=220pt]{classBinaryGenerator__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Binary\+Generator\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=238pt]{classBinaryGenerator__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structBinaryGenerator_1_1GeneratorOut}{Generator\+Out}}
+\begin{DoxyCompactList}\small\item\em Example of wrapper for meta info containing singleton object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classBinaryGenerator_a6487a25d6f7e959ef39941f2024db1ea}{Binary\+Generator}} (double probability, size\+\_\+t count, uint32\+\_\+t seed=std\+::random\+\_\+device\{\}())
+\begin{DoxyCompactList}\small\item\em Construct a new Binary Generator object. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classBinaryGenerator_aebe4c4b44d8ff9a25fecde1eab2ba031}{run}} () override
+\begin{DoxyCompactList}\small\item\em Processing method. As shown it use no input at all. And put some meta info to have an access to them from other units or from outsize of model. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classBinaryGenerator_a6823189d67f3bbacde3c8b1c88adb463}\label{classBinaryGenerator_a6823189d67f3bbacde3c8b1c88adb463}} 
+double {\bfseries p}
+\item 
+\mbox{\Hypertarget{classBinaryGenerator_a2e5cd6b259585a480f7410b8dd4596e9}\label{classBinaryGenerator_a2e5cd6b259585a480f7410b8dd4596e9}} 
+size\+\_\+t {\bfseries n}
+\item 
+\mbox{\Hypertarget{classBinaryGenerator_a70244dc22713c626ce75d6a9b4d98498}\label{classBinaryGenerator_a70244dc22713c626ce75d6a9b4d98498}} 
+std\+::mt19937 {\bfseries gen}
+\item 
+\mbox{\Hypertarget{classBinaryGenerator_a62bd0146cdfc4f5927ceeaaedf9fcff4}\label{classBinaryGenerator_a62bd0146cdfc4f5927ceeaaedf9fcff4}} 
+std\+::bernoulli\+\_\+distribution {\bfseries bern} \{0\}
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Detailed Description}
+Example of data generator without input. 
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classBinaryGenerator_a6487a25d6f7e959ef39941f2024db1ea}\label{classBinaryGenerator_a6487a25d6f7e959ef39941f2024db1ea}} 
+\index{BinaryGenerator@{BinaryGenerator}!BinaryGenerator@{BinaryGenerator}}
+\index{BinaryGenerator@{BinaryGenerator}!BinaryGenerator@{BinaryGenerator}}
+\doxysubsubsection{\texorpdfstring{BinaryGenerator()}{BinaryGenerator()}}
+{\footnotesize\ttfamily Binary\+Generator\+::\+Binary\+Generator (\begin{DoxyParamCaption}\item[{double}]{probability,  }\item[{size\+\_\+t}]{count,  }\item[{uint32\+\_\+t}]{seed = {\ttfamily std\+:\+:random\+\_\+device\{\}()} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Construct a new Binary Generator object. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em probability} & probability of generating 1 \\
+\hline
+{\em count} & number of bits to generate in one run \\
+\hline
+{\em seed} & \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classBinaryGenerator_aebe4c4b44d8ff9a25fecde1eab2ba031}\label{classBinaryGenerator_aebe4c4b44d8ff9a25fecde1eab2ba031}} 
+\index{BinaryGenerator@{BinaryGenerator}!run@{run}}
+\index{run@{run}!BinaryGenerator@{BinaryGenerator}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily void Binary\+Generator\+::run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Processing method. As shown it use no input at all. And put some meta info to have an access to them from other units or from outsize of model. 
+
+
+
+Reimplemented from \mbox{\hyperlink{structUnitProto_a1c7aa9c3c3ce37fee16a68321aa569a4}{Unit\+Proto$<$ Empty\+Object, std\+::vector$<$ bool $>$ $>$}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\+Basic\+Units/Binary\+Generator.\+hpp\end{DoxyCompactItemize}

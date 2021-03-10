@@ -1,0 +1,4 @@
+<map id="UnitProto&lt; In_t, Out_t &gt;" name="UnitProto&lt; In_t, Out_t &gt;">
+<area shape="rect" id="node1" title="Prototype for designing Units. You only have to inherit from this class and override void run() metho..." alt="" coords="5,95,185,121"/>
+<area shape="rect" id="node2" href="$classMetaInfo.html" title="Container class to carry some user information between units." alt="" coords="55,5,135,32"/>
+</map>

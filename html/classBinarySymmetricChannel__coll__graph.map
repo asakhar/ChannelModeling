@@ -1,0 +1,5 @@
+<map id="BinarySymmetricChannel" name="BinarySymmetricChannel">
+<area shape="rect" id="node1" title="Example of binary symmetric channel unit. Randomly injects errors in input data within the given chan..." alt="" coords="5,200,193,227"/>
+<area shape="rect" id="node2" href="$structUnitProto.html" title=" " alt="" coords="16,95,183,151"/>
+<area shape="rect" id="node3" href="$classMetaInfo.html" title="Container class to carry some user information between units." alt="" coords="59,5,139,32"/>
+</map>

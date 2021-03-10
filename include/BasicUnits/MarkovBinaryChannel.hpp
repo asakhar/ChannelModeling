@@ -8,19 +8,36 @@
 #include <limits>
 #include <random>
 #include <vector>
-
-class MarkovBinaryChannel : public UnitProto<std::vector<bool>, std::vector<bool>> {
+/**
+ * @brief Example of Markov Chain Channel unit
+ *
+ */
+class MarkovBinaryChannel
+    : public UnitProto<std::vector<bool>, std::vector<bool>> {
 public:
   MarkovBinaryChannel() = default;
+  /**
+   * @brief Construct a new Markov Binary Channel object
+   *
+   * @param number_of_states
+   * @param initial_state
+   * @param transition_probabilities
+   * @param error_probabilities
+   * @param seed
+   */
   MarkovBinaryChannel(size_t number_of_states, size_t initial_state,
                       Matrix<double> transition_probabilities,
-                      std::vector<double> error_probabilities, uint32_t seed = std::random_device{}())
+                      std::vector<double> error_probabilities,
+                      uint32_t seed = std::random_device{}())
       : nstates{number_of_states}, initstate{initial_state},
         P{std::move(transition_probabilities)},
         Pis{std::move(error_probabilities)}, gen{seed}, dist{0., 1.} {
     P.normalize(P.Rows);
   }
-
+  /**
+   * @brief Processing method
+   *
+   */
   void run() override {
     auto state = initstate;
     output = std::move(input);

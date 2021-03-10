@@ -1,0 +1,188 @@
+\hypertarget{classMetaInfo}{}\doxysection{Meta\+Info Class Reference}
+\label{classMetaInfo}\index{MetaInfo@{MetaInfo}}
+
+
+Container class to carry some user information between units.  
+
+
+
+
+{\ttfamily \#include $<$metainfo.\+hxx$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classMetaInfo_a1fb9b86e3d1622899b9b425ebe3894c8}{put}} (std\+::any value)
+\begin{DoxyCompactList}\small\item\em Puts user data into the container. It\textquotesingle{}s better to put user info in singleton classes to prevent data type collisions. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Ty $>$ }\\Ty \& \mbox{\hyperlink{classMetaInfo_adc34bb39424b36335cb2d5b80618df82}{get}} ()
+\begin{DoxyCompactList}\small\item\em Returns read-\/write enabled reference to requested object. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Ty $>$ }\\const Ty \& \mbox{\hyperlink{classMetaInfo_aff9152304fd6bf07b2aacfb2c2c6999e}{get}} () const
+\begin{DoxyCompactList}\small\item\em Returns readonly reference to requested object. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classMetaInfo_a20b312243d10e85a7ee3dbacec6db55e}{begin}} ()
+\begin{DoxyCompactList}\small\item\em Begin iterator. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classMetaInfo_af542d06dab7ebb38d3f78640f4089127}{end}} ()
+\begin{DoxyCompactList}\small\item\em End iterator. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classMetaInfo_a548a5fd68e34d9b4fc6136e2eec876ce}{begin}} () const
+\begin{DoxyCompactList}\small\item\em Begin const iterator. \end{DoxyCompactList}\item 
+auto \mbox{\hyperlink{classMetaInfo_a2f99ca2f7cac7c8147df39e98817e67b}{end}} () const
+\begin{DoxyCompactList}\small\item\em End const iterator. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Ty $>$ }\\auto \mbox{\hyperlink{classMetaInfo_ad34aba8a2d61d1e9cabbb9d4c203f0fd}{find}} ()
+\begin{DoxyCompactList}\small\item\em Returns iterator to object of specified type. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename Ty $>$ }\\auto \mbox{\hyperlink{classMetaInfo_a1cb24a479615f6a5b205e714275754f6}{find}} () const
+\begin{DoxyCompactList}\small\item\em Returns iterator to object of specified type. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Container class to carry some user information between units. 
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classMetaInfo_a20b312243d10e85a7ee3dbacec6db55e}\label{classMetaInfo_a20b312243d10e85a7ee3dbacec6db55e}} 
+\index{MetaInfo@{MetaInfo}!begin@{begin}}
+\index{begin@{begin}!MetaInfo@{MetaInfo}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto Meta\+Info\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Begin iterator. 
+
+\begin{DoxyReturn}{Returns}
+auto 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetaInfo_a548a5fd68e34d9b4fc6136e2eec876ce}\label{classMetaInfo_a548a5fd68e34d9b4fc6136e2eec876ce}} 
+\index{MetaInfo@{MetaInfo}!begin@{begin}}
+\index{begin@{begin}!MetaInfo@{MetaInfo}}
+\doxysubsubsection{\texorpdfstring{begin()}{begin()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto Meta\+Info\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Begin const iterator. 
+
+\begin{DoxyReturn}{Returns}
+auto 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetaInfo_af542d06dab7ebb38d3f78640f4089127}\label{classMetaInfo_af542d06dab7ebb38d3f78640f4089127}} 
+\index{MetaInfo@{MetaInfo}!end@{end}}
+\index{end@{end}!MetaInfo@{MetaInfo}}
+\doxysubsubsection{\texorpdfstring{end()}{end()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily auto Meta\+Info\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+End iterator. 
+
+\begin{DoxyReturn}{Returns}
+auto 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetaInfo_a2f99ca2f7cac7c8147df39e98817e67b}\label{classMetaInfo_a2f99ca2f7cac7c8147df39e98817e67b}} 
+\index{MetaInfo@{MetaInfo}!end@{end}}
+\index{end@{end}!MetaInfo@{MetaInfo}}
+\doxysubsubsection{\texorpdfstring{end()}{end()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily auto Meta\+Info\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+End const iterator. 
+
+\begin{DoxyReturn}{Returns}
+auto 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetaInfo_ad34aba8a2d61d1e9cabbb9d4c203f0fd}\label{classMetaInfo_ad34aba8a2d61d1e9cabbb9d4c203f0fd}} 
+\index{MetaInfo@{MetaInfo}!find@{find}}
+\index{find@{find}!MetaInfo@{MetaInfo}}
+\doxysubsubsection{\texorpdfstring{find()}{find()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Ty $>$ \\
+auto Meta\+Info\+::find (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns iterator to object of specified type. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Ty} & type of object to be found \\
+\hline
+\end{DoxyTemplParams}
+\begin{DoxyReturn}{Returns}
+auto 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetaInfo_a1cb24a479615f6a5b205e714275754f6}\label{classMetaInfo_a1cb24a479615f6a5b205e714275754f6}} 
+\index{MetaInfo@{MetaInfo}!find@{find}}
+\index{find@{find}!MetaInfo@{MetaInfo}}
+\doxysubsubsection{\texorpdfstring{find()}{find()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Ty $>$ \\
+auto Meta\+Info\+::find (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns iterator to object of specified type. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Ty} & type of object to be found \\
+\hline
+\end{DoxyTemplParams}
+\begin{DoxyReturn}{Returns}
+auto 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetaInfo_adc34bb39424b36335cb2d5b80618df82}\label{classMetaInfo_adc34bb39424b36335cb2d5b80618df82}} 
+\index{MetaInfo@{MetaInfo}!get@{get}}
+\index{get@{get}!MetaInfo@{MetaInfo}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename Ty $>$ \\
+Ty\& Meta\+Info\+::get (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns read-\/write enabled reference to requested object. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Ty} & type of object to be extracted \\
+\hline
+\end{DoxyTemplParams}
+\begin{DoxyReturn}{Returns}
+Ty\& 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetaInfo_aff9152304fd6bf07b2aacfb2c2c6999e}\label{classMetaInfo_aff9152304fd6bf07b2aacfb2c2c6999e}} 
+\index{MetaInfo@{MetaInfo}!get@{get}}
+\index{get@{get}!MetaInfo@{MetaInfo}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename Ty $>$ \\
+const Ty\& Meta\+Info\+::get (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Returns readonly reference to requested object. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Ty} & type of object to be extracted \\
+\hline
+\end{DoxyTemplParams}
+\begin{DoxyReturn}{Returns}
+Ty const\& 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetaInfo_a1fb9b86e3d1622899b9b425ebe3894c8}\label{classMetaInfo_a1fb9b86e3d1622899b9b425ebe3894c8}} 
+\index{MetaInfo@{MetaInfo}!put@{put}}
+\index{put@{put}!MetaInfo@{MetaInfo}}
+\doxysubsubsection{\texorpdfstring{put()}{put()}}
+{\footnotesize\ttfamily void Meta\+Info\+::put (\begin{DoxyParamCaption}\item[{std\+::any}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Puts user data into the container. It\textquotesingle{}s better to put user info in singleton classes to prevent data type collisions. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/metainfo.\+hxx\end{DoxyCompactItemize}

@@ -3,16 +3,38 @@
 
 #include "unitproto.hpp"
 #include <random>
-
+/**
+ * @brief Example of data generator without input
+ *
+ */
 class BinaryGenerator : public UnitProto<EmptyObject, std::vector<bool>> {
 public:
+  /**
+   * @brief Example of wrapper for meta info containing singleton object
+   *
+   */
   struct GeneratorOut {
     std::vector<bool> data;
   };
 
   BinaryGenerator() = default;
-  BinaryGenerator(double probability, size_t count, uint32_t seed = std::random_device{}())
+  /**
+   * @brief Construct a new Binary Generator object
+   *
+   * @param probability probability of generating 1
+   * @param count number of bits to generate in one run
+   * @param seed
+   */
+  BinaryGenerator(double probability, size_t count,
+                  uint32_t seed = std::random_device{}())
       : p{probability}, n{count}, gen{seed}, bern{p} {}
+  /**
+   * @brief Processing method.
+   * As shown it use no input at all.
+   * And put some meta info to have an access to them from other units or from
+   * outsize of model
+   *
+   */
   void run() override {
     GeneratorOut out;
     output.resize(n);

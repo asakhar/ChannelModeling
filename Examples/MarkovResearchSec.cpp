@@ -22,8 +22,9 @@ int main(int /*argc*/, char const * /*argv*/[]) {
 
   int const n = 100;
 
-  Matrix<double> P{std::vector<std::vector<double>>{
-      {p00, p01, p02}, {p10, p11, p12}, {p20, p21, p22}}};
+  Matrix<double> P{{{p00, p01, p02},
+                    {p10, p11, p12},
+                    {p20, p21, p22}}};
   P.normalize(P.Rows);
   std::cout << "P_state_transition =\n";
   for (auto row : P) {
@@ -58,7 +59,7 @@ int main(int /*argc*/, char const * /*argv*/[]) {
       errs += static_cast<int>((bool)pair.first ^ (bool)pair.second);
     ++exact_errs[errs];
   }
-  std::ofstream file{"output.csv"};
+  std::ofstream file{"Examples/output.csv"};
   std::cout << "total iterations: " << iterations << "\nP(m,n)  as  n=" << n
             << ":";
   std::cout.precision(std::numeric_limits<double>::max_digits10);

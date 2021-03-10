@@ -141,9 +141,8 @@ struct arguments_of<Out_t(Ins_t...)> {
  * @tparam Functors
  */
 template <typename... Functors>
-requires(
-    // (std::is_default_constructible_v<Functors> && ...) &&
-    (std::is_copy_constructible_v<Functors> &&...)) class Model
+requires((std::is_copy_constructible_v<Functors> ||
+          std::is_move_constructible_v<Functors>)&&...) class Model
 
 {
 public:
@@ -174,7 +173,7 @@ public:
    *
    * @param fns functors or generic callbles
    */
-  Model(Functors ...fns) : m_units{fns...} {
+  Model(Functors... fns) : m_units{fns...} {
     // before call checks
     for_<N - 1>([](auto const i) {
       using In_next = std::tuple_element_t<

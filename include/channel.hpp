@@ -174,7 +174,7 @@ public:
    *
    * @param fns functors or generic callbles
    */
-  Model(Functors const &...fns) : m_units{fns...} {
+  Model(Functors ...fns) : m_units{fns...} {
     // before call checks
     for_<N - 1>([](auto const i) {
       using In_next = std::tuple_element_t<

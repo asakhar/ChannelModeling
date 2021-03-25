@@ -48,7 +48,8 @@ public:
   Out_t operator()(In_t &&data, MetaInfo &info) {
     input = std::move(data);
     meta = std::move(info);
-    output.clear();
+    output = Out_t{};
+    // output.clear();
     run();
     info = std::move(meta);
     return output;

@@ -4,8 +4,25 @@
 #include "metainfo.hxx"
 #include <array>
 #include <fstream>
+#include "BasicUnits/BCH.hpp"
 
 int main(int /*argc*/, char const * /*argv*/[]) {
+  // BCH bch(14, 40, 0);
+  // std::vector<uint8_t> data{'a', 'b', 'c', 'd', 'e', 'f'}; 
+  // auto const& ecc = bch.encode(data);
+  // data[1] += '\1';
+  // data[4] = 'g';
+  // for(auto symb : data) {
+  //   std::cout << symb << " ";
+  // }
+  // std::cout << std::endl;
+  // auto const& errloc = bch.decode(data, ecc);
+  // bch.correct(data);
+  // for(auto symb : data) {
+  //   std::cout << symb << " ";
+  // }
+  // std::cout << std::endl;
+
   double const pi0 = 0;
   double const pi1 = 0.3;
   double const pi2 = 0.7;
@@ -22,6 +39,7 @@ int main(int /*argc*/, char const * /*argv*/[]) {
 
   int const n = 100;
 
+  double const prob = 0.3;
   Matrix<double> P{{{p00, p01, p02},
                     {p10, p11, p12},
                     {p20, p21, p22}}};
@@ -33,13 +51,13 @@ int main(int /*argc*/, char const * /*argv*/[]) {
       std::cout << std::setw(4) << col;
     std::cout << " ]\n";
   }
-  double const prob = 0.3;
   int const seed = 12;
   int const repetition_length = 5;
   Model model{BinaryGenerator(prob, n, seed),
-              RepetitionEncoder{repetition_length},
+              // RepetitionEncoder{repetition_length},
               MarkovBinaryChannel(3, 0, P, {pi0, pi1, pi2}, seed),
-              RepetitionDecoder{repetition_length}};
+              // RepetitionDecoder{repetition_length}
+              };
   auto const iterations = 10000;
   std::array<size_t, n + 1> exact_errs{0};
   for (int i = 0; i < iterations; i++) {

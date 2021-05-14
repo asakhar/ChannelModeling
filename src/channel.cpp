@@ -6,5 +6,6 @@
 #include "BasicUnits/MarkovBinaryChannel.hpp"
 #include "BasicUnits/RepetitionCoder.hpp"
 #include "BasicUnits/BCH.hpp"
+#include "LDPC/Decoder.hpp"
 
 #include <iostream>

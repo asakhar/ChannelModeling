@@ -10,6 +10,13 @@
  */
 class BinaryGenerator : public UnitProto<EmptyObject, std::vector<uint8_t>> {
 public:
+  /**
+   * @brief Example of wrapper for meta info containing singleton object
+   *
+   */
+  struct GeneratorOut {
+    std::vector<uint8_t> data;
+  };
 
   BinaryGenerator() = default;
   /**
@@ -24,19 +31,25 @@ public:
       : p{probability}, n{count}, gen{seed}, bern{p} {}
   /**
    * @brief Processing method.
-   * As shown it uses no input at all.
+   * As shown it use no input at all.
+   * And put some meta info to have an access to them from other units or from
+   * outsize of model
    *
    */
   void run() override {
+    GeneratorOut out;
     output.resize(n);
-    for (auto &item : output) {
-      item = static_cast<uint8_t>(bern(gen));
+    for (auto item : output) {
+      uint8_t result = static_cast<uint8_t>(bern(gen));
+      item = result;
+      out.data.emplace_back(result);
     }
+    meta.put(out);
   }
   double p;
   size_t n;
   std::mt19937 gen;
-  std::bernoulli_distribution bern;
+  std::bernoulli_distribution bern{0};
 };
 
 #endif // BINARYGENERATOR_HPP

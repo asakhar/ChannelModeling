@@ -55,3 +55,14 @@ target_link_libraries(Test2 default)
 
 add_executable(LDPCTest test1.cpp)
 target_link_libraries(LDPCTest default OpenCL::OpenCL)
+
+set(kernels KernelHS_naive.cl
+            KernelHS_byindex.cl
+            KernelVS_naive.cl
+            KernelVS_byindex.cl
+            KernelCheck_naive.cl
+            KernelCheck_byindex.cl
+            KernelLLR.cl)
+foreach(kernel IN ITEMS ${kernels})
+    file(COPY ${ldpc_codec_SOURCE_DIR}/cl/${kernel} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+endforeach()

@@ -29,15 +29,23 @@ int main() {
 
   const auto max_iters = 1000;
   const auto max_ber = 10;
-  if (max_ber) {
+  const auto max_ser = 5;
+  if (max_ber && max_ser) {
     auto iters = 0ul;
-    while (ber.data < max_ber) {
+    auto ser = 0ul;
+    auto ber_cummulative = 0ul;
+    while (ber_cummulative < max_ber && ser < max_ser) {
       iters++;
       model();
-      std::cout << ber.data << std::endl;
+      ber_cummulative += ber.data;
+      if (ber.data > 0)
+        ser++;
+
+      std::cout << "BER: " << ber.data << "BER cummulative: " << ber_cummulative
+                << " SER: " << ser << std::endl;
     }
-    std::cout << "Number of iterations until reaching BER limit" << iters
-              << std::endl;
+    std::cout << "Number of iterations until reaching BER or CER limit "
+              << iters << std::endl;
   } else {
 
     for (auto iters = 0ul; iters < max_iters; iters++) {

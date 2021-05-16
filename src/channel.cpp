@@ -6,6 +6,11 @@
 #include "BasicUnits/MarkovBinaryChannel.hpp"
 #include "BasicUnits/RepetitionCoder.hpp"
 #include "BasicUnits/BCH.hpp"
+#include "BasicUnits/DataLogger.hpp"
 #include "LDPC/Decoder.hpp"
+#include "LDPC/CodewordGenerator.hpp"
+#include "BasicUnits/ErrorCounter.hpp"
+#include "BasicUnits/GaussianChannel.hpp"
+#include "BasicUnits/Modulator.hpp"
 
 #include <iostream>

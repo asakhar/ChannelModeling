@@ -2,13 +2,14 @@ cmake_minimum_required(VERSION 3.12)
 
 project(ChannelModeling VERSION 2.3)
 
+find_package(OpenCL REQUIRED)
+
 include(FetchContent)
 
 FetchContent_Declare(
-  ldpc_codec 
+  ldpc_codec
   GIT_REPOSITORY https://github.com/rinat229/LDPC_codes.git
-  GIT_TAG main
-  )
+  GIT_TAG main)
 FetchContent_MakeAvailable(ldpc_codec)
 FetchContent_GetProperties(ldpc_codec)
 if(NOT ldpc_codec_POPULATED)
@@ -27,7 +28,8 @@ if(NOT bch_linux_POPULATED)
 endif()
 
 add_library(libbch_linux "${bch_linux_SOURCE_DIR}/bch_codec.c")
-target_include_directories(libbch_linux INTERFACE ${bch_linux_SOURCE_DIR} ${ldpc_codec_SOURCE_DIR})
+target_include_directories(libbch_linux INTERFACE ${bch_linux_SOURCE_DIR}
+                                                  ${ldpc_codec_SOURCE_DIR})
 add_library(BCH_Linux::BCH_Linux ALIAS libbch_linux)
 
 add_library(default INTERFACE)
@@ -50,3 +52,6 @@ target_link_libraries(Markov2 default)
 
 add_executable(Test2 Examples/test2.cpp)
 target_link_libraries(Test2 default)
+
+add_executable(LDPCTest test1.cpp)
+target_link_libraries(LDPCTest default OpenCL::OpenCL)

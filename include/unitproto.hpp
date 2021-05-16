@@ -17,7 +17,7 @@
  * @tparam Out_t output data type
  */
 template <typename In_t, typename Out_t> struct UnitProto {
-protected:
+public:
   /**
    * @brief Input data to manage from *void run()*
    *

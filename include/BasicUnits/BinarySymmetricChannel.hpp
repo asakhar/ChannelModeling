@@ -2,6 +2,7 @@
 #define BINARYSYMMETRICCHANNEL_HXX
 
 #include "unitproto.hpp"
+#include <bits/stdint-uintn.h>
 #include <random>
 #include <vector>
 /**
@@ -10,7 +11,7 @@
  *
  */
 class BinarySymmetricChannel
-    : public UnitProto<std::vector<bool>, std::vector<bool>> {
+    : public UnitProto<std::vector<uint8_t>, std::vector<uint8_t>> {
 public:
   BinarySymmetricChannel() = default;
   /**
@@ -30,8 +31,8 @@ public:
    */
   void run() override {
     output = std::move(input);
-    for (auto item : output)
-      item = item ^ (dist(gen) <= p);
+    for (auto &item : output)
+      item = item ^ static_cast<uint8_t>(dist(gen) <= p);
   }
 
 private:

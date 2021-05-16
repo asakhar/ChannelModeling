@@ -16,6 +16,7 @@ std::string itos(int x) {
 
 int main() {
   DecoderMinSumByIndex decoder(2, 3, 10);
+  GaussianChannel channel{0.1};
   using DataType = std::vector<float>;
   using Container = struct { DataType data; };
   using BER_t = struct { uint64_t data; };
@@ -24,7 +25,7 @@ int main() {
       CodewordGenerator(2, 3, 10, decoder.check_matrix),
       DataLogger<DataType, Container>{}, /*
        DataPrinter<DataType, Container>{[](float x) { return itos((int)x); }},*/
-      Modulator(), GaussianChannel(0.1), Demodulator(), decoder,
+      Modulator(), channel, Demodulator(), decoder,
       BitErrorRate<Container, BER_t>() /*, BERPrinter<BER_t>()*/, BER2Var{ber});
 
   const auto max_iters = 1000;

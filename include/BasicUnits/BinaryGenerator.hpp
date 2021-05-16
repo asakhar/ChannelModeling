@@ -2,20 +2,14 @@
 #define BINARYGENERATOR_HPP
 
 #include "unitproto.hpp"
+#include <bits/stdint-uintn.h>
 #include <random>
 /**
  * @brief Example of data generator without input
  *
  */
-class BinaryGenerator : public UnitProto<EmptyObject, std::vector<bool>> {
+class BinaryGenerator : public UnitProto<EmptyObject, std::vector<uint8_t>> {
 public:
-  /**
-   * @brief Example of wrapper for meta info containing singleton object
-   *
-   */
-  struct GeneratorOut {
-    std::vector<bool> data;
-  };
 
   BinaryGenerator() = default;
   /**
@@ -30,25 +24,19 @@ public:
       : p{probability}, n{count}, gen{seed}, bern{p} {}
   /**
    * @brief Processing method.
-   * As shown it use no input at all.
-   * And put some meta info to have an access to them from other units or from
-   * outsize of model
+   * As shown it uses no input at all.
    *
    */
   void run() override {
-    GeneratorOut out;
     output.resize(n);
-    for (auto item : output) {
-      bool result = bern(gen);
-      item = result;
-      out.data.emplace_back(result);
+    for (auto &item : output) {
+      item = static_cast<uint8_t>(bern(gen));
     }
-    meta.put(out);
   }
   double p;
   size_t n;
   std::mt19937 gen;
-  std::bernoulli_distribution bern{0};
+  std::bernoulli_distribution bern;
 };
 
 #endif // BINARYGENERATOR_HPP

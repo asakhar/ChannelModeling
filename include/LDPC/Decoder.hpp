@@ -22,20 +22,6 @@
 
 namespace compute = boost::compute;
 
-const float mistake_pr = 0.05;
-
-void mistake_generate(std::vector<float> &codeword) {
-  srand(time(0));
-  for (auto &a : codeword) {
-    if ((double)rand() / RAND_MAX < mistake_pr) {
-      if (a == 0)
-        a = 1;
-      else
-        a = 0;
-    }
-  }
-}
-
 const int ARG_0 = 0;
 const int ARG_1 = 1;
 const int ARG_2 = 2;

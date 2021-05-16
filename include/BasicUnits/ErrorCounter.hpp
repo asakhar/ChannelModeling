@@ -13,8 +13,8 @@ public:
     auto const &init_data = meta.get<InitialData>();
     if (output.size() != init_data.data.size())
       throw std::runtime_error("Incorrect length");
-    auto counter = 0ul;
-    for (auto i = 0ul; i < output.size(); i++) {
+    auto counter = 0UL;
+    for (auto i = 0UL; i < output.size(); i++) {
       if (output[i] != init_data.data[i])
         counter++;
     }

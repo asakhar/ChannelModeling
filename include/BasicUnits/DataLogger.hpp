@@ -1,6 +1,8 @@
 #ifndef DATALOGGER_HPP
 #define DATALOGGER_HPP
 #include "unitproto.hpp"
+#include <functional>
+#include <ostream>
 
 template <typename In_t, typename Pack_t>
 class DataLogger : public UnitProto<In_t, In_t> {
@@ -11,8 +13,6 @@ public:
   }
 };
 
-#include <functional>
-#include <ostream>
 template <typename In_t, typename Pack_t>
 class DataPrinter : public UnitProto<In_t, In_t> {
   using DataItem = decltype(In_t{}[0]);

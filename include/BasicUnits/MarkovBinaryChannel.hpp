@@ -3,6 +3,7 @@
 
 #include "Utility/Matrix.hxx"
 #include "unitproto.hpp"
+#include <bits/stdint-uintn.h>
 #include <cmath>
 #include <iomanip>
 #include <limits>
@@ -13,7 +14,7 @@
  *
  */
 class MarkovBinaryChannel
-    : public UnitProto<std::vector<bool>, std::vector<bool>> {
+    : public UnitProto<std::vector<uint8_t>, std::vector<uint8_t>> {
 public:
   MarkovBinaryChannel() = default;
   /**
@@ -41,9 +42,9 @@ public:
   void run() override {
     auto state = initstate;
     output = std::move(input);
-    for (auto bit : output) {
+    for (auto &bit : output) {
       auto bitflip = dist(gen);
-      bit = bit ^ (bitflip < Pis[state]);
+      bit = bit ^ static_cast<int>(bitflip < Pis[state]);
 
       auto translation = dist(gen);
       auto i = 0UL;
@@ -55,8 +56,8 @@ public:
   }
 
   size_t nstates = 0UL, initstate = 0UL;
-  Matrix<double> P{};
-  std::vector<double> Pis{};
+  Matrix<double> P;
+  std::vector<double> Pis;
   std::mt19937 gen;
   std::uniform_real_distribution<double> dist;
 };

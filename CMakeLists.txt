@@ -34,7 +34,7 @@ add_library(BCH_Linux::BCH_Linux ALIAS libbch_linux)
 
 add_library(default INTERFACE)
 target_link_libraries(default INTERFACE BCH_Linux::BCH_Linux)
-target_compile_options(default INTERFACE -O3)
+target_compile_options(default INTERFACE -O0 -g)
 target_compile_features(default INTERFACE cxx_std_20)
 target_include_directories(default INTERFACE include)
 target_precompile_headers(default INTERFACE pch.h)
@@ -53,8 +53,22 @@ target_link_libraries(Markov2 default)
 add_executable(Test2 Examples/test2.cpp)
 target_link_libraries(Test2 default)
 
+
+include(FetchContent)
+
+FetchContent_Declare(json
+  GIT_REPOSITORY https://github.com/nlohmann/json.git
+  GIT_TAG v3.7.3)
+
+FetchContent_GetProperties(json)
+if(NOT json_POPULATED)
+  FetchContent_Populate(json)
+  add_subdirectory(${json_SOURCE_DIR} ${json_BINARY_DIR} EXCLUDE_FROM_ALL)
+endif()
+
+
 add_executable(LDPCTest test1.cpp)
-target_link_libraries(LDPCTest default OpenCL::OpenCL)
+target_link_libraries(LDPCTest PUBLIC default OpenCL::OpenCL nlohmann_json::nlohmann_json)
 
 set(kernels KernelHS_naive.cl
             KernelHS_byindex.cl

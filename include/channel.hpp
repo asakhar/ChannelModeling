@@ -230,6 +230,10 @@ public:
     return Model<Functors...>::call_all<In_t, std::tuple_size_v<Tuple_t>>(
         m_units, std::move(eo), meta);
   }
+  template<size_t i>
+  auto& get() {
+    return std::get<i>(m_units);
+  }
 
 private:
   template <std::size_t N> struct num {

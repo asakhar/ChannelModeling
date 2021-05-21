@@ -20,10 +20,6 @@ private:
   bch_control *m_control;
 };
 
-// class BCHEncoderBits : UnitProto<std::vector<bool>, std::vector<bool>> {
-
-// };
-
 class BCHDecoder : public UnitProto<std::vector<uint8_t>, std::vector<uint8_t>> {
 public:
   BCHDecoder(BCHEncoder &encoder);

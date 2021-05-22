@@ -70,8 +70,8 @@ struct DecoderMinSumByIndex
 public:
   DecoderMinSumByIndex(int ones_row, int ones_column, int length,
                        int max_iter = 100,
-                       std::string const &cl_directory = "./")
-      : gpu{compute::system::default_device()}, context{gpu},
+                       std::string const &cl_directory = "./", uint32_t seed = std::random_device{}())
+      : UnitProto{seed}, gpu{compute::system::default_device()}, context{gpu},
         queue{context, gpu}, a{ones_row}, b{ones_column}, l{length},
         max_iterations(max_iter), n(b * l), k(a * l), row_num(a * l),
         col_num(b * l), check_matrix_of_index(a * b * l), E(a * b * l),
@@ -93,7 +93,7 @@ public:
 
   {
     check_matrix_generate_with_idxMatrix(a, b, l, check_matrix,
-                                         check_matrix_of_index);
+                                         check_matrix_of_index, gen);
     gen_matrix(row_num, col_num, check_matrix);
     std::sort(check_matrix_of_index.begin(), check_matrix_of_index.end());
     buffer_check_matrix = compute::vector<int>(

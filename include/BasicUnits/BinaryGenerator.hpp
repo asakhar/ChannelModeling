@@ -28,7 +28,7 @@ public:
    */
   BinaryGenerator(double probability, size_t count,
                   uint32_t seed = std::random_device{}())
-      : p{probability}, n{count}, gen{seed}, bern{p} {}
+      : UnitProto{seed}, p{probability}, n{count}, bern{p} {}
   /**
    * @brief Processing method.
    * As shown it use no input at all.
@@ -40,7 +40,7 @@ public:
     GeneratorOut out;
     output.resize(n);
     for (auto item : output) {
-      uint8_t result = static_cast<uint8_t>(bern(gen));
+      uint8_t result = static_cast<uint8_t>(bern(twister()));
       item = result;
       out.data.emplace_back(result);
     }
@@ -48,7 +48,6 @@ public:
   }
   double p;
   size_t n;
-  std::mt19937 gen;
   std::bernoulli_distribution bern{0};
 };
 

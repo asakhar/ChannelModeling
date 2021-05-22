@@ -22,7 +22,7 @@ public:
    */
   BinarySymmetricChannel(double bitflip_chance,
                          uint32_t seed = std::random_device{}())
-      : p{bitflip_chance}, gen{seed}, dist{0., 1.} {}
+      : UnitProto{seed}, p{bitflip_chance}, dist{0., 1.} {}
   /**
    * @brief Processing method.
    * Exaple shows that You actually are avaliable to move from input data to
@@ -32,12 +32,11 @@ public:
   void run() override {
     output = std::move(input);
     for (auto &item : output)
-      item = item ^ static_cast<uint8_t>(dist(gen) <= p);
+      item = item ^ static_cast<uint8_t>(dist(twister()) <= p);
   }
 
 private:
   double p = 0;
-  std::mt19937 gen;
   std::uniform_real_distribution<double> dist;
 };
 

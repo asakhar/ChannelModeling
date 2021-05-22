@@ -30,9 +30,9 @@ public:
                       Matrix<double> transition_probabilities,
                       std::vector<double> error_probabilities,
                       uint32_t seed = std::random_device{}())
-      : nstates{number_of_states}, initstate{initial_state},
+      : UnitProto{seed}, nstates{number_of_states}, initstate{initial_state},
         P{std::move(transition_probabilities)},
-        Pis{std::move(error_probabilities)}, gen{seed}, dist{0., 1.} {
+        Pis{std::move(error_probabilities)}, dist{0., 1.} {
     P.normalize(P.Rows);
   }
   /**
@@ -43,10 +43,10 @@ public:
     auto state = initstate;
     output = std::move(input);
     for (auto &bit : output) {
-      auto bitflip = dist(gen);
+      auto bitflip = dist(twister());
       bit = bit ^ static_cast<int>(bitflip < Pis[state]);
 
-      auto translation = dist(gen);
+      auto translation = dist(twister());
       auto i = 0UL;
       for (; i < nstates - 1; i++)
         if (translation <= P[state][i])
@@ -58,7 +58,6 @@ public:
   size_t nstates = 0UL, initstate = 0UL;
   Matrix<double> P;
   std::vector<double> Pis;
-  std::mt19937 gen;
   std::uniform_real_distribution<double> dist;
 };
 

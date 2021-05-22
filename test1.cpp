@@ -11,6 +11,7 @@
 #include <filesystem>
 #include <fstream>
 #include <nlohmann/json.hpp>
+#include <random>
 #include <sstream>
 
 using json = nlohmann::json;
@@ -33,7 +34,7 @@ int main(int argc, char *argv[]) {
   std::string cldir = argv[1];
   std::cout << "Current CL path: \n" << cldir << std::endl;
 
-  DecoderMinSumByIndex decoder(2, 3, 100, 100, cldir);
+  DecoderMinSumByIndex decoder(2, 3, 100, 100, cldir, 124U); //123 is the worst seed for generating matrix
   GaussianChannel channel{0.F};
   using DataType = std::vector<float>;
   using Container = struct { DataType data; };
@@ -51,11 +52,12 @@ int main(int argc, char *argv[]) {
   const auto max_ser = 30;
   const auto power_step = .005F;
   const auto max_power = .7F;
-  float noise_power = .0F;
+  float noise_power = .4F;
 
   json data;
-  std::ofstream file{"result.json"};
+  std::ofstream file{"result_exactly_the_same.json"};
   MetaInfo meta;
+  meta.put(std::mt19937{123U});
   while (noise_power < max_power) {
     model.get<3>().setNoisePower(noise_power);
     auto iters = 0UL;
@@ -63,7 +65,6 @@ int main(int argc, char *argv[]) {
     auto ber_cummulative = 0UL;
     while (ber_cummulative < max_ber && ser < max_ser && iters < max_iters) {
       iters++;
-      meta = {};
       model(meta);
       ber_cummulative += ber.data;
       if (ber.data > 0)

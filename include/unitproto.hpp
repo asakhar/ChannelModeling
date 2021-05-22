@@ -34,12 +34,24 @@ public:
    */
   MetaInfo meta;
   /**
+   * @brief Mersene twister
+   *
+   */
+  std::mt19937 gen;
+  /**
    * @brief Processing method to be overloaded
    *
    */
+  UnitProto() : gen{std::random_device{}()} {}
+  UnitProto(uint32_t seed) : gen{seed} {}
+
+  std::mt19937 &twister() {
+    return meta.find<std::mt19937>() == meta.end() ? gen
+                                                   : meta.get<std::mt19937>();
+  }
+
   virtual void run() { meta.put(UnitInfo{"Unit prototype has been used."}); }
 
-public:
   virtual ~UnitProto() = default;
   struct UnitInfo {
     char const *info;

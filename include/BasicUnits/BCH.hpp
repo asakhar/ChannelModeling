@@ -6,10 +6,15 @@
 #include <vector>
 struct bch_control;
 
-class BCHEncoder : public UnitProto<std::vector<uint8_t>, std::vector<uint8_t>> {
+class BCHEncoder
+    : public UnitProto<std::vector<uint8_t>, std::vector<uint8_t>> {
 public:
   BCHEncoder(int m, int t, unsigned int prim_poly = 0);
   ~BCHEncoder();
+  BCHEncoder(BCHEncoder &&);
+  BCHEncoder(BCHEncoder const &);
+  BCHEncoder& operator=(BCHEncoder &&);
+  BCHEncoder& operator=(BCHEncoder const&);
   void run() override;
 
 private:
@@ -18,9 +23,11 @@ private:
   void encode(std::vector<uint8_t> &data);
 
   bch_control *m_control;
+  unsigned int m_prim_poly;
 };
 
-class BCHDecoder : public UnitProto<std::vector<uint8_t>, std::vector<uint8_t>> {
+class BCHDecoder
+    : public UnitProto<std::vector<uint8_t>, std::vector<uint8_t>> {
 public:
   BCHDecoder(BCHEncoder &encoder);
 
@@ -40,6 +47,7 @@ class BCHLogger : public UnitProto<std::vector<uint8_t>, std::vector<uint8_t>> {
   };
   BCHLogger(BCHEncoder &encoder);
   void run() override;
+
 private:
   BCHEncoder &m_encoder;
 };

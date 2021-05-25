@@ -21,6 +21,7 @@ BCHEncoder::BCHEncoder(BCHEncoder const &other)
                          static_cast<int>(other.m_control->t),
                          other.m_prim_poly)},
       m_prim_poly(other.m_prim_poly) {}
+
 BCHEncoder &BCHEncoder::operator=(BCHEncoder &&other) {
   free_bch(m_control);
   m_control = other.m_control;
@@ -28,6 +29,7 @@ BCHEncoder &BCHEncoder::operator=(BCHEncoder &&other) {
   m_prim_poly = other.m_prim_poly;
   return *this;
 }
+
 BCHEncoder &BCHEncoder::operator=(BCHEncoder const &other) {
   if (this != &other) {
     free_bch(m_control);

@@ -10,7 +10,7 @@ BCHEncoder::BCHEncoder(int m, int t, unsigned int prim_poly)
     : m_control{init_bch(m, t, prim_poly)}, m_prim_poly(prim_poly) {}
 BCHEncoder::~BCHEncoder() { free_bch(m_control); }
 
-BCHEncoder::BCHEncoder(BCHEncoder &&other) {
+BCHEncoder::BCHEncoder(BCHEncoder &&other) : UnitProto{std::move(other)} {
   m_control = other.m_control;
   m_prim_poly = other.m_prim_poly;
   other.m_control = nullptr;
@@ -18,15 +18,18 @@ BCHEncoder::BCHEncoder(BCHEncoder &&other) {
 
 BCHEncoder::BCHEncoder(BCHEncoder const &other)
     : UnitProto{other}, m_control{init_bch(static_cast<int>(other.m_control->m),
-                         static_cast<int>(other.m_control->t),
-                         other.m_prim_poly)},
+                                           static_cast<int>(other.m_control->t),
+                                           other.m_prim_poly)},
       m_prim_poly(other.m_prim_poly) {}
 
 BCHEncoder &BCHEncoder::operator=(BCHEncoder &&other) {
-  free_bch(m_control);
-  m_control = other.m_control;
-  other.m_control = nullptr;
-  m_prim_poly = other.m_prim_poly;
+  if (this != &other) {
+    free_bch(m_control);
+    m_control = other.m_control;
+    other.m_control = nullptr;
+    m_prim_poly = other.m_prim_poly;
+    gen = std::move(other.gen);
+  }
   return *this;
 }
 
@@ -37,6 +40,7 @@ BCHEncoder &BCHEncoder::operator=(BCHEncoder const &other) {
         init_bch(static_cast<int>(other.m_control->m),
                  static_cast<int>(other.m_control->t), other.m_prim_poly);
     m_prim_poly = other.m_prim_poly;
+    gen = other.gen;
   }
   return *this;
 }

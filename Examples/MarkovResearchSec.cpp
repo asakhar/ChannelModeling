@@ -7,22 +7,6 @@
 #include "BasicUnits/BCH.hpp"
 
 int main(int /*argc*/, char const * /*argv*/[]) {
-  // BCH bch(14, 40, 0);
-  // std::vector<uint8_t> data{'a', 'b', 'c', 'd', 'e', 'f'}; 
-  // auto const& ecc = bch.encode(data);
-  // data[1] += '\1';
-  // data[4] = 'g';
-  // for(auto symb : data) {
-  //   std::cout << symb << " ";
-  // }
-  // std::cout << std::endl;
-  // auto const& errloc = bch.decode(data, ecc);
-  // bch.correct(data);
-  // for(auto symb : data) {
-  //   std::cout << symb << " ";
-  // }
-  // std::cout << std::endl;
-
   double const pi0 = 0;
   double const pi1 = 0.3;
   double const pi2 = 0.7;

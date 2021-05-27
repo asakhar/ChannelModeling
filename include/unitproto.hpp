@@ -44,6 +44,8 @@ public:
    */
   UnitProto() : gen{std::random_device{}()} {}
   UnitProto(uint32_t seed) : gen{seed} {}
+  UnitProto(UnitProto const& unit) : gen{unit.gen} {}
+  UnitProto(UnitProto && unit) : gen{std::move(unit.gen)} {}
 
   std::mt19937 &twister() {
     return meta.find<std::mt19937>() == meta.end() ? gen

@@ -34,7 +34,7 @@ add_library(BCH_Linux::BCH_Linux ALIAS libbch_linux)
 
 add_library(default INTERFACE)
 target_link_libraries(default INTERFACE BCH_Linux::BCH_Linux)
-target_compile_options(default INTERFACE -O0 -g)
+target_compile_options(default INTERFACE -O3)
 target_compile_features(default INTERFACE cxx_std_20)
 target_include_directories(default INTERFACE include)
 target_precompile_headers(default INTERFACE pch.h)

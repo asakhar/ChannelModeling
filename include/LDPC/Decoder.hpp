@@ -66,10 +66,11 @@ struct DecoderMinSumByIndex
   compute::kernel kernel_HS;
   compute::kernel kernel_VS;
   compute::kernel kernel_check;
+  static int const maximum_iterations_default = 100;
 
 public:
   DecoderMinSumByIndex(int ones_row, int ones_column, int length,
-                       int max_iter = 100,
+                       int max_iter = maximum_iterations_default,
                        std::string const &cl_directory = "./", uint32_t seed = std::random_device{}())
       : UnitProto{seed}, gpu{compute::system::default_device()}, context{gpu},
         queue{context, gpu}, a{ones_row}, b{ones_column}, l{length},
